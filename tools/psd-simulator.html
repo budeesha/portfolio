@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSD Simulator | Rosin-Rammler Tool</title>
+  <meta name="description" content="Interactive Particle Size Distribution simulator using the Rosin-Rammler model. Fit curves, compare distributions, and export data.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── Layout ── */
+    .sim-page {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    .sim-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .sim-header-left h1 {
+      font-family: var(--heading);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
+    }
+
+    .sim-header-left p {
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    .sim-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    /* ── Control Panel ── */
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .ctrl-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .ctrl-card-header {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .ctrl-card-header span {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    .ctrl-card-header .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .ctrl-card-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    /* Material Preset */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .preset-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.6rem;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .preset-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.1); }
+
+    /* Sliders */
+    .slider-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .slider-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .slider-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .slider-label sub {
+      font-size: 10px;
+      color: var(--text2);
+    }
+
+    .slider-value {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 70px;
+      text-align: right;
+    }
+
+    .slider-value.green { color: var(--accent2); }
+    .slider-value.amber { color: var(--warn); }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--border2);
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 8px rgba(79,142,247,0.4);
+      cursor: pointer;
+    }
+
+    input[type="range"].green::-webkit-slider-thumb { background: var(--accent2); box-shadow: 0 0 8px rgba(52,211,153,0.4); }
+    input[type="range"].amber::-webkit-slider-thumb { background: var(--warn); box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+
+    .slider-range {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    /* Sieve data input */
+    .sieve-textarea {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      padding: 0.75rem;
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.7;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .sieve-textarea:focus { border-color: var(--accent); }
+    .sieve-textarea::placeholder { color: var(--text3); }
+
+    .fit-btn {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.3);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .fit-btn:hover { background: rgba(79,142,247,0.2); }
+
+    .fit-result {
+      font-size: 11px;
+      color: var(--accent2);
+      display: none;
+      text-align: center;
+    }
+
+    /* Comparison toggle */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .toggle-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .toggle {
+      position: relative;
+      width: 36px; height: 20px;
+    }
+
+    .toggle input { opacity: 0; width: 0; height: 0; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--border2);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle input:checked + .toggle-track { background: var(--accent); }
+
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      left: 3px; top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle input:checked + .toggle-track::before { transform: translateX(16px); }
+
+    .compare-section { display: none; }
+    .compare-section.visible { display: flex; flex-direction: column; gap: 1.1rem; }
+
+    /* ── Chart Area ── */
+    .chart-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Metrics row */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+    }
+
+    .metric-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      text-align: center;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.3rem;
+    }
+
+    .metric-value {
+      font-family: 'Courier New', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .metric-value.b { color: var(--accent2); }
+
+    .metric-unit {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 0.1rem;
+    }
+
+    /* Chart wrapper */
+    .chart-wrapper {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .chart-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .chart-mode-tabs {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .mode-tab {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-tab.active {
+      background: rgba(79,142,247,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .chart-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    .chart-canvas-wrap {
+      position: relative;
+      height: 380px;
+    }
+
+    /* What-if banner */
+    .whatif-banner {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      font-size: 12px;
+      color: var(--warn);
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .whatif-banner.visible { display: flex; }
+
+    /* x-axis log toggle */
+    .scale-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* Equation display */
+    .equation-bar {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 1.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .equation-bar strong { color: var(--accent2); }
+
+    @media (max-width: 1000px) {
+      .sim-layout { grid-template-columns: 1fr; }
+      .metrics-row { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+      .preset-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Budeesha<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../projects.html">Projects</a></li>
+    <li><a href="../services.html">Services</a></li>
+    <li><a href="../blog.html">Blog</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main style="padding-top:64px;">
+<div class="sim-page">
+
+  <div class="sim-header">
+    <div class="sim-header-left">
+      <h1>Rosin-Rammler PSD Simulator</h1>
+      <p>Interactive particle size distribution modelling tool &nbsp;·&nbsp; Built by Budeesha Samarakoon</p>
+    </div>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+      <span class="tag green" style="font-size:11px;">Live Tool</span>
+      <span class="tag" style="font-size:11px;">No signup needed</span>
+    </div>
+  </div>
+
+  <div class="sim-layout">
+
+    <!-- ── LEFT: Controls ── -->
+    <div class="control-panel">
+
+      <!-- Material Presets -->
+      <div class="ctrl-card">
+        <div class="ctrl-card-header">
+          <div class="dot"></div>
+          <span>Material Preset</span>
+        </div>
+        <div class="ctrl-card-body">
+          <div class="preset-grid">
+            <button class="preset-btn active" onclick="applyPreset('activated_carbon', this)">Activated Carbon</button>
+            <button class="preset-btn" onclick="applyPreset('limestone', this)">Limestone</button>
+            <button class="preset-btn" onclick="applyPreset('clinker', this)">Clinker</button>
+            <button class="preset-btn" onclick="applyPreset('coal', this)">Coal</button>
+            <button class="preset-btn" onclick="applyPreset('silica', this)">Silica Sand</button>
+            <button class="preset-btn" onclick="applyPreset('custom', this)">Custom</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Distribution A Controls -->
+      <div class="ctrl-card">
+        <div class="ctrl-card-header">
+          <div class="dot"></div>
+          <span>Distribution A</span>
+        </div>
+        <div class="ctrl-card-body">
+
+          <div class="slider-group">
+            <div class="slider-meta">
+              <span class="slider-label">x′ — Characteristic Size</span>
+              <span class="slider-value" id="xp-val">500 µm</span>
+            </div>
+            <input type="range" id="xp-slider" min="10" max="5000" step="10" value="500"
+                   oninput="onSliderChange()">
+            <div class="slider-range"><span>10 µm</span><span>5000 µm</span></div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-meta">
+              <span class="slider-label">n — Distribution Modulus</span>
+              <span class="slider-value green" id="n-val">1.20</span>
+            </div>
+            <input type="range" class="green" id="n-slider" min="0.3" max="5.0" step="0.05" value="1.2"
+                   oninput="onSliderChange()">
+            <div class="slider-range"><span>0.3 (wide)</span><span>5.0 (narrow)</span></div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-meta">
+              <span class="slider-label">Feed Tonnage (optional)</span>
+              <span class="slider-value amber" id="feed-val">100 t/h</span>
+            </div>
+            <input type="range" class="amber" id="feed-slider" min="1" max="500" step="1" value="100"
+                   oninput="onSliderChange()">
+            <div class="slider-range"><span>1 t/h</span><span>500 t/h</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison Mode -->
+      <div class="ctrl-card">
+        <div class="ctrl-card-header">
+          <div class="dot" style="background:var(--warn)"></div>
+          <span>Comparison Mode</span>
+          <label class="toggle" style="margin-left:auto">
+            <input type="checkbox" id="compare-toggle" onchange="toggleCompare()">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="ctrl-card-body">
+          <div class="compare-section" id="compare-section">
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-label">x′ — Distribution B</span>
+                <span class="slider-value amber" id="xp2-val">800 µm</span>
+              </div>
+              <input type="range" class="amber" id="xp2-slider" min="10" max="5000" step="10" value="800"
+                     oninput="onSliderChange()">
+              <div class="slider-range"><span>10 µm</span><span>5000 µm</span></div>
+            </div>
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-label">n — Distribution B</span>
+                <span class="slider-value amber" id="n2-val">1.80</span>
+              </div>
+              <input type="range" class="amber" id="n2-slider" min="0.3" max="5.0" step="0.05" value="1.8"
+                     oninput="onSliderChange()">
+              <div class="slider-range"><span>0.3</span><span>5.0</span></div>
+            </div>
+          </div>
+          <p style="font-size:12px; color:var(--text3);">Enable to overlay a second distribution — compare before/after mill adjustment.</p>
+        </div>
+      </div>
+
+      <!-- Sieve Data Fit -->
+      <div class="ctrl-card">
+        <div class="ctrl-card-header">
+          <div class="dot" style="background:var(--accent2)"></div>
+          <span>Fit From Sieve Data</span>
+        </div>
+        <div class="ctrl-card-body">
+          <p style="font-size:12px; color:var(--text2); line-height:1.6;">
+            Paste your sieve data below.<br>
+            Format: <code style="color:var(--accent); font-size:11px;">size_µm, %_passing</code><br>
+            One row per sieve size.
+          </p>
+          <textarea class="sieve-textarea" id="sieve-input"
+            placeholder="Example:
+75, 12.5
+150, 28.3
+300, 52.1
+600, 74.8
+1000, 90.2
+2000, 98.5"></textarea>
+          <button class="fit-btn" onclick="fitFromSieveData()">⚡ Fit Rosin-Rammler Curve</button>
+          <div class="fit-result" id="fit-result"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT: Chart Area ── -->
+    <div class="chart-area">
+
+      <!-- Key metrics -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">d<sub>10</sub></div>
+          <div class="metric-value" id="d10">—</div>
+          <div class="metric-unit">µm</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">d<sub>50</sub></div>
+          <div class="metric-value" id="d50">—</div>
+          <div class="metric-unit">µm</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">d<sub>80</sub></div>
+          <div class="metric-value" id="d80">—</div>
+          <div class="metric-unit">µm</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">d<sub>90</sub></div>
+          <div class="metric-value" id="d90">—</div>
+          <div class="metric-unit">µm</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Span</div>
+          <div class="metric-value b" id="span">—</div>
+          <div class="metric-unit">(d90−d10)/d50</div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="chart-wrapper">
+        <div class="chart-toolbar">
+          <div class="chart-mode-tabs">
+            <button class="mode-tab active" id="tab-cumulative" onclick="setMode('cumulative')">Cumulative</button>
+            <button class="mode-tab" id="tab-differential" onclick="setMode('differential')">Differential</button>
+            <button class="mode-tab" id="tab-both" onclick="setMode('both')">Both</button>
+          </div>
+          <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+            <label class="scale-toggle">
+              <input type="checkbox" id="log-scale" onchange="onSliderChange()" style="width:auto; height:auto; background:none; border:none;">
+              Log x-axis
+            </label>
+            <div class="chart-actions">
+              <button class="action-btn" onclick="exportCSV()">⬇ Export CSV</button>
+              <button class="action-btn" onclick="window.print()">🖨 Print</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="whatif-banner" id="whatif-banner">
+          ⚡ What-if mode: dashed line shows current locked distribution. Move sliders to explore changes.
+        </div>
+
+        <div class="chart-canvas-wrap">
+          <canvas id="psdChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Equation bar -->
+      <div class="equation-bar">
+        <span>R(x) = 1 − exp[−(x / x′)<sup>n</sup>]</span>
+        <span id="eq-display">x′ = <strong>500 µm</strong> &nbsp;·&nbsp; n = <strong>1.20</strong></span>
+        <span style="color:var(--text3); font-size:12px;">x′ = size at 63.2% passing</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</main>
+
+<script>
+// ── Constants ──
+const SIEVE_SIZES = [
+  10, 20, 38, 45, 53, 63, 75, 90, 106, 125, 150, 180, 212,
+  250, 300, 355, 425, 500, 600, 710, 850, 1000, 1180, 1400,
+  1700, 2000, 2360, 2800, 3350, 4000, 4750, 5000
+];
+
+const PRESETS = {
+  activated_carbon: { xp: 500,  n: 1.20, label: 'Activated Carbon' },
+  limestone:        { xp: 800,  n: 1.55, label: 'Limestone' },
+  clinker:          { xp: 1200, n: 0.95, label: 'Clinker' },
+  coal:             { xp: 280,  n: 0.85, label: 'Coal' },
+  silica:           { xp: 420,  n: 1.80, label: 'Silica Sand' },
+  custom:           { xp: 500,  n: 1.20, label: 'Custom' }
+};
+
+let chartMode = 'cumulative';
+let compareEnabled = false;
+let psdChart = null;
+let lockedDataA = null;
+
+// ── Rosin-Rammler Math ──
+function rrCumulative(x, xp, n) {
+  return (1 - Math.exp(-Math.pow(x / xp, n))) * 100;
+}
+
+function rrDifferential(x, xp, n) {
+  const ratio = x / xp;
+  return (n / xp) * Math.pow(ratio, n - 1) * Math.exp(-Math.pow(ratio, n)) * 100;
+}
+
+function dPercentile(p, xp, n) {
+  // R(x) = p/100  =>  x = xp * (-ln(1-p/100))^(1/n)
+  return xp * Math.pow(-Math.log(1 - p / 100), 1 / n);
+}
+
+function generateCurve(xp, n, logScale) {
+  const sizes = logScale
+    ? Array.from({ length: 120 }, (_, i) => Math.pow(10, Math.log10(10) + (Math.log10(5000) - Math.log10(10)) * i / 119))
+    : SIEVE_SIZES;
+
+  return sizes.map(x => ({
+    x,
+    cum:  rrCumulative(x, xp, n),
+    diff: rrDifferential(x, xp, n)
+  }));
+}
+
+// ── Metrics ──
+function updateMetrics(xp, n) {
+  const d10 = dPercentile(10, xp, n);
+  const d50 = dPercentile(50, xp, n);
+  const d80 = dPercentile(80, xp, n);
+  const d90 = dPercentile(90, xp, n);
+  const span = (d90 - d10) / d50;
+
+  document.getElementById('d10').textContent = d10 < 1000 ? d10.toFixed(0) : (d10/1000).toFixed(2) + 'k';
+  document.getElementById('d50').textContent = d50 < 1000 ? d50.toFixed(0) : (d50/1000).toFixed(2) + 'k';
+  document.getElementById('d80').textContent = d80 < 1000 ? d80.toFixed(0) : (d80/1000).toFixed(2) + 'k';
+  document.getElementById('d90').textContent = d90 < 1000 ? d90.toFixed(0) : (d90/1000).toFixed(2) + 'k';
+  document.getElementById('span').textContent = span.toFixed(2);
+}
+
+// ── Chart ──
+function buildDatasets(dataA, dataB, lockedA) {
+  const datasets = [];
+  const blue  = 'rgba(79,142,247,1)';
+  const bluef = 'rgba(79,142,247,0.12)';
+  const green = 'rgba(52,211,153,1)';
+  const amber = 'rgba(245,158,11,1)';
+  const amberf= 'rgba(245,158,11,0.12)';
+  const grey  = 'rgba(100,130,160,0.5)';
+
+  if (chartMode === 'cumulative' || chartMode === 'both') {
+    datasets.push({
+      label: 'Cumulative A (%)',
+      data: dataA.map(d => ({ x: d.x, y: d.cum })),
+      borderColor: blue,
+      backgroundColor: bluef,
+      borderWidth: 2.5,
+      fill: chartMode === 'cumulative',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      yAxisID: 'y'
+    });
+  }
+
+  if (chartMode === 'differential' || chartMode === 'both') {
+    datasets.push({
+      label: 'Differential A (freq)',
+      data: dataA.map(d => ({ x: d.x, y: d.diff })),
+      borderColor: green,
+      backgroundColor: 'rgba(52,211,153,0.08)',
+      borderWidth: 2,
+      fill: chartMode === 'differential',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      yAxisID: chartMode === 'both' ? 'y2' : 'y'
+    });
+  }
+
+  if (compareEnabled && dataB) {
+    if (chartMode === 'cumulative' || chartMode === 'both') {
+      datasets.push({
+        label: 'Cumulative B (%)',
+        data: dataB.map(d => ({ x: d.x, y: d.cum })),
+        borderColor: amber,
+        backgroundColor: amberf,
+        borderWidth: 2.5,
+        borderDash: [6, 3],
+        fill: false,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        yAxisID: 'y'
+      });
+    }
+  }
+
+  if (lockedA) {
+    datasets.push({
+      label: 'Locked (what-if ref)',
+      data: lockedA.map(d => ({ x: d.x, y: d.cum })),
+      borderColor: grey,
+      borderWidth: 1.5,
+      borderDash: [4, 4],
+      fill: false,
+      tension: 0.4,
+      pointRadius: 0,
+      yAxisID: 'y'
+    });
+  }
+
+  return datasets;
+}
+
+function initChart() {
+  const ctx = document.getElementById('psdChart').getContext('2d');
+  const logScale = document.getElementById('log-scale').checked;
+
+  psdChart = new Chart(ctx, {
+    type: 'line',
+    data: { datasets: [] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 120 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: {
+            color: 'rgba(180,200,220,0.8)',
+            font: { size: 11, family: 'Inter' },
+            boxWidth: 12,
+            padding: 16
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(10,18,35,0.95)',
+          borderColor: 'rgba(79,142,247,0.3)',
+          borderWidth: 1,
+          titleColor: '#fff',
+          bodyColor: 'rgba(180,200,220,0.8)',
+          padding: 12,
+          callbacks: {
+            title: items => `Size: ${parseFloat(items[0].label).toFixed(0)} µm`,
+            label: item => `${item.dataset.label}: ${item.parsed.y.toFixed(2)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: logScale ? 'logarithmic' : 'linear',
+          title: { display: true, text: 'Particle Size (µm)', color: 'rgba(100,140,180,0.8)', font: { size: 11 } },
+          ticks: { color: 'rgba(100,140,180,0.7)', font: { size: 10 } },
+          grid: { color: 'rgba(30,60,90,0.5)' }
+        },
+        y: {
+          min: 0, max: 100,
+          title: { display: true, text: 'Cumulative % Passing', color: 'rgba(100,140,180,0.8)', font: { size: 11 } },
+          ticks: { color: 'rgba(100,140,180,0.7)', font: { size: 10 }, callback: v => v + '%' },
+          grid: { color: 'rgba(30,60,90,0.5)' }
+        },
+        y2: {
+          display: chartMode === 'both',
+          position: 'right',
+          title: { display: true, text: 'Differential Frequency', color: 'rgba(52,211,153,0.8)', font: { size: 11 } },
+          ticks: { color: 'rgba(52,211,153,0.6)', font: { size: 10 } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+function updateChart() {
+  const xp  = parseFloat(document.getElementById('xp-slider').value);
+  const n   = parseFloat(document.getElementById('n-slider').value);
+  const xp2 = parseFloat(document.getElementById('xp2-slider').value);
+  const n2  = parseFloat(document.getElementById('n2-slider').value);
+  const logScale = document.getElementById('log-scale').checked;
+
+  const dataA = generateCurve(xp, n, logScale);
+  const dataB = compareEnabled ? generateCurve(xp2, n2, logScale) : null;
+
+  psdChart.data.datasets = buildDatasets(dataA, dataB, lockedDataA);
+
+  // Update x-axis type
+  psdChart.options.scales.x.type = logScale ? 'logarithmic' : 'linear';
+  psdChart.options.scales.y2.display = chartMode === 'both';
+  psdChart.update();
+
+  updateMetrics(xp, n);
+
+  // Update equation bar
+  document.getElementById('xp-val').textContent = xp + ' µm';
+  document.getElementById('n-val').textContent  = n.toFixed(2);
+  document.getElementById('eq-display').innerHTML =
+    `x′ = <strong>${xp} µm</strong> &nbsp;·&nbsp; n = <strong>${n.toFixed(2)}</strong>`;
+
+  if (compareEnabled) {
+    document.getElementById('xp2-val').textContent = xp2 + ' µm';
+    document.getElementById('n2-val').textContent  = n2.toFixed(2);
+  }
+
+  const feed = document.getElementById('feed-slider').value;
+  document.getElementById('feed-val').textContent = feed + ' t/h';
+}
+
+// ── Controls ──
+function onSliderChange() { updateChart(); }
+
+function setMode(mode) {
+  chartMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + mode).classList.add('active');
+  updateChart();
+}
+
+function toggleCompare() {
+  compareEnabled = document.getElementById('compare-toggle').checked;
+  const section = document.getElementById('compare-section');
+  section.classList.toggle('visible', compareEnabled);
+  updateChart();
+}
+
+function applyPreset(key, btn) {
+  const p = PRESETS[key];
+  document.getElementById('xp-slider').value = p.xp;
+  document.getElementById('n-slider').value  = p.n;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateChart();
+}
+
+// ── Sieve Data Fitting (log-linearised least squares) ──
+function fitFromSieveData() {
+  const raw = document.getElementById('sieve-input').value.trim();
+  if (!raw) return;
+
+  const rows = raw.split('\n').map(r => r.trim()).filter(r => r);
+  const pts  = [];
+
+  for (const row of rows) {
+    const parts = row.split(/[\s,;]+/);
+    if (parts.length < 2) continue;
+    const x = parseFloat(parts[0]);
+    const p = parseFloat(parts[1]);
+    if (isNaN(x) || isNaN(p) || p <= 0 || p >= 100) continue;
+    pts.push({ x, p });
+  }
+
+  if (pts.length < 2) {
+    document.getElementById('fit-result').style.display = 'block';
+    document.getElementById('fit-result').style.color = 'var(--warn)';
+    document.getElementById('fit-result').textContent = '⚠ Need at least 2 valid data points (0 < % < 100)';
+    return;
+  }
+
+  // Linearise: ln(ln(1/(1-R))) = n*ln(x) - n*ln(x')
+  const lnX  = pts.map(p => Math.log(p.x));
+  const lnY  = pts.map(p => Math.log(Math.log(1 / (1 - p.p / 100))));
+
+  // Simple linear regression
+  const N  = pts.length;
+  const sx = lnX.reduce((a, b) => a + b, 0);
+  const sy = lnY.reduce((a, b) => a + b, 0);
+  const sxx = lnX.reduce((a, b) => a + b * b, 0);
+  const sxy = lnX.reduce((acc, xi, i) => acc + xi * lnY[i], 0);
+
+  const slope = (N * sxy - sx * sy) / (N * sxx - sx * sx);
+  const inter = (sy - slope * sx) / N;
+
+  const n_fit  = slope;
+  const xp_fit = Math.exp(-inter / slope);
+
+  // R²
+  const yMean = sy / N;
+  const ssTot = lnY.reduce((a, b) => a + Math.pow(b - yMean, 2), 0);
+  const ssRes = lnY.reduce((acc, yi, i) => acc + Math.pow(yi - (slope * lnX[i] + inter), 2), 0);
+  const r2    = 1 - ssRes / ssTot;
+
+  // Apply fitted values
+  const xpClamped = Math.min(5000, Math.max(10, Math.round(xp_fit)));
+  const nClamped  = Math.min(5.0, Math.max(0.3, parseFloat(n_fit.toFixed(2))));
+
+  document.getElementById('xp-slider').value = xpClamped;
+  document.getElementById('n-slider').value  = nClamped;
+
+  // Show result
+  const res = document.getElementById('fit-result');
+  res.style.display = 'block';
+  res.style.color   = 'var(--accent2)';
+  res.innerHTML = `✓ Fitted: x′ = ${xpClamped} µm &nbsp;|&nbsp; n = ${nClamped} &nbsp;|&nbsp; R² = ${r2.toFixed(4)}`;
+
+  // Deselect presets
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.preset-btn:last-child').classList.add('active');
+
+  updateChart();
+}
+
+// ── Export CSV ──
+function exportCSV() {
+  const xp = parseFloat(document.getElementById('xp-slider').value);
+  const n  = parseFloat(document.getElementById('n-slider').value);
+
+  let csv = 'Size (µm),Cumulative % Passing,Differential Frequency\n';
+  SIEVE_SIZES.forEach(x => {
+    csv += `${x},${rrCumulative(x, xp, n).toFixed(3)},${rrDifferential(x, xp, n).toFixed(5)}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = `psd_xp${xp}_n${n}.csv`;
+  a.click();
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  initChart();
+  updateChart();
+});
+</script>
+</body>
+</html>

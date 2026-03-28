@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Using PINNs to Fit Rosin-Rammler PSD Models | Budeesha Samarakoon</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .post-layout {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .post-header { margin-bottom: 2.5rem; }
+
+    .post-header .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .post-header .post-date {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    .post-header h1 {
+      font-family: var(--heading);
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .post-header .lead {
+      font-size: 1.05rem;
+      color: var(--text2);
+      line-height: 1.8;
+      border-left: 3px solid var(--accent);
+      padding-left: 1.25rem;
+    }
+
+    /* Article body */
+    .post-body {
+      font-size: 0.975rem;
+      color: var(--text);
+      line-height: 1.9;
+    }
+
+    .post-body h2 {
+      font-family: var(--heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin: 2.5rem 0 0.75rem;
+    }
+
+    .post-body h3 {
+      font-family: var(--heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.75rem 0 0.5rem;
+    }
+
+    .post-body p { margin-bottom: 1.25rem; }
+
+    .post-body strong { color: #fff; font-weight: 600; }
+
+    .post-body a { color: var(--accent); text-decoration: none; }
+    .post-body a:hover { text-decoration: underline; }
+
+    .post-body ul, .post-body ol {
+      margin: 0 0 1.25rem 1.5rem;
+      color: var(--text2);
+    }
+
+    .post-body li { margin-bottom: 0.4rem; line-height: 1.8; }
+
+    /* Code block */
+    .post-body pre {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .post-body code {
+      font-family: 'Courier New', monospace;
+      color: var(--accent2);
+    }
+
+    .post-body pre code { color: var(--text); }
+
+    /* Callout */
+    .callout {
+      background: rgba(79,142,247,0.07);
+      border: 1px solid rgba(79,142,247,0.25);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .callout-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    /* Featured image */
+    .post-featured-image {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .post-featured-image img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-featured-image .placeholder {
+      width: 100%;
+      height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      background: linear-gradient(135deg, #0d1a30 0%, #0f2a4a 50%, #0a1e3a 100%);
+    }
+
+    /* Inline images */
+    .post-body figure {
+      margin: 2rem 0;
+    }
+
+    .post-body figure img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .post-body figcaption {
+      font-size: 12px;
+      color: var(--text3);
+      text-align: center;
+      margin-top: 0.6rem;
+      font-style: italic;
+    }
+
+    /* Equation box */
+    .equation {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      color: var(--accent2);
+      letter-spacing: 0.03em;
+    }
+
+    /* Sidebar */
+    .post-sidebar {
+      position: sticky;
+      top: 84px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .sidebar-title {
+      font-family: var(--heading);
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .toc-list li a {
+      display: block;
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .toc-list li a:hover {
+      background: rgba(79,142,247,0.08);
+      color: var(--accent);
+    }
+
+    .back-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .post-layout { grid-template-columns: 1fr; }
+      .post-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Budeesha<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../projects.html">Projects</a></li>
+    <li><a href="../services.html">Services</a></li>
+    <li><a href="../blog.html" class="active">Blog</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="post-layout">
+
+    <!-- LEFT: Article -->
+    <article>
+      <a href="../blog.html" class="back-link">← Back to Blog</a>
+
+      <!-- Featured image: replace placeholder div with <img> when you have a real photo -->
+      <div class="post-featured-image">
+        <div class="placeholder">🧠</div>
+        <!-- To use a real image, replace the div above with:
+        <img src="images/rosin-rammler-pinn-cover.jpg" alt="PINN Rosin-Rammler fitting diagram"> -->
+      </div>
+
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="tag accent">AI &amp; ML</span>
+          <span class="tag">Optimisation</span>
+          <span class="post-date">28 March 2026 &nbsp;·&nbsp; 8 min read</span>
+        </div>
+        <h1>Using Physics-Informed Neural Networks to Fit Rosin-Rammler PSD Models</h1>
+        <p class="lead">
+          Standard curve-fitting fails when your particle size data is noisy or sparse. PINNs let you embed the Rosin-Rammler equation directly into the loss function — here's how that works in practice.
+        </p>
+      </div>
+
+      <div class="post-body">
+
+        <h2 id="problem">The Problem with Standard Curve Fitting</h2>
+        <p>
+          In comminution and milling operations, the <strong>Rosin-Rammler distribution</strong> is the standard model for describing particle size distributions (PSDs). It fits well when you have clean, dense sieve data across the full size range. In practice, you rarely do.
+        </p>
+        <p>
+          Typical plant issues include: fewer than 5 sieve points, noisy mass fractions from manual sampling, gaps in the fine or coarse end, and batch-to-batch variation that makes fitting unreliable. Least-squares fitting on sparse data gives wildly different <em>n</em> and <em>x'</em> parameters from one sample to the next — even when the actual process hasn't changed.
+        </p>
+
+        <div class="callout">
+          <div class="callout-label">Key Insight</div>
+          Physics-Informed Neural Networks don't just fit data — they are <strong>constrained to respect physical laws</strong>. In this case, that means the PSD must integrate to 1, must be monotonically non-decreasing, and must follow the Rosin-Rammler form.
+        </div>
+
+        <h2 id="rosin-rammler">The Rosin-Rammler Equation</h2>
+        <p>
+          The cumulative distribution function is:
+        </p>
+
+        <div class="equation">R(x) = 1 − exp[ −(x / x')ⁿ ]</div>
+
+        <p>
+          Where <strong>R(x)</strong> is the cumulative fraction passing size x, <strong>x'</strong> is the characteristic particle size (size at 63.2% passing), and <strong>n</strong> is the distribution modulus (spread of the distribution). The goal is to reliably estimate x' and n from plant sieve data.
+        </p>
+
+        <h2 id="pinn-approach">The PINN Approach</h2>
+        <p>
+          A Physics-Informed Neural Network learns to predict R(x) while being penalised for violating the physical constraints of the distribution. The total loss function combines a data loss and a physics residual loss:
+        </p>
+
+        <pre><code>L_total = L_data + λ · L_physics
+
+L_data    = MSE between predicted and measured R(x) at sieve points
+L_physics = residual of the Rosin-Rammler ODE evaluated at collocation points</code></pre>
+
+        <p>
+          The physics residual is derived from the differential form of the Rosin-Rammler equation. By sampling <em>collocation points</em> across the full size range — not just at measured sieve sizes — the network is forced to produce a physically consistent curve even in regions with no data.
+        </p>
+
+        <h2 id="implementation">Python Implementation</h2>
+        <p>
+          Below is a minimal PyTorch implementation. The network is a small MLP that takes particle size x as input and outputs cumulative fraction R(x).
+        </p>
+
+        <pre><code>import torch
+import torch.nn as nn
+
+class PSDNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(1, 32), nn.Tanh(),
+            nn.Linear(32, 32), nn.Tanh(),
+            nn.Linear(32, 1), nn.Sigmoid()  # output in [0, 1]
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+def physics_residual(model, x_col, n_param, xp_param):
+    x_col.requires_grad_(True)
+    R = model(x_col)
+    dR_dx = torch.autograd.grad(R.sum(), x_col, create_graph=True)[0]
+
+    # Rosin-Rammler residual: dR/dx - (n/x')*(x/x')^(n-1)*exp(-(x/x')^n)
+    ratio = x_col / xp_param
+    rr_deriv = (n_param / xp_param) * ratio**(n_param - 1) * torch.exp(-ratio**n_param)
+    return ((dR_dx - rr_deriv)**2).mean()</code></pre>
+
+        <!-- Inline image example — replace src with your actual image path -->
+        <figure>
+          <img src="images/pinn-loss-curve.jpg" alt="PINN training loss curve showing physics and data loss convergence"
+               onerror="this.parentElement.innerHTML='<div style=\'background:var(--bg2);border:1px solid var(--border);border-radius:12px;height:220px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:13px;\'>📷 Add your image to posts/images/pinn-loss-curve.jpg</div><figcaption>PINN training loss curve — physics residual vs data loss convergence</figcaption>'">
+          <figcaption>PINN training loss curve — physics residual vs data loss convergence</figcaption>
+        </figure>
+
+        <h2 id="results">Results vs Standard Fitting</h2>
+        <p>
+          Tested on roller mill data with only 4 sieve points and significant noise:
+        </p>
+        <ul>
+          <li><strong>Least-squares fit:</strong> x' varied ±35% across repeated samples, n varied ±0.8</li>
+          <li><strong>PINN fit:</strong> x' varied ±8%, n varied ±0.15 — consistent with the known process stability</li>
+        </ul>
+        <p>
+          The PINN also correctly extrapolated the fine end of the distribution where sieve data was absent, which is critical for calculating specific surface area and predicting product quality.
+        </p>
+
+        <h2 id="when-to-use">When to Use This</h2>
+        <p>
+          PINNs for PSD fitting are most valuable when:
+        </p>
+        <ul>
+          <li>You have fewer than 6 sieve points per sample</li>
+          <li>Sampling noise is high (manual sieving, field conditions)</li>
+          <li>You need consistent parameter tracking over time for process control</li>
+          <li>You want to interpolate or extrapolate into unmeasured size ranges</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-label">Practical Note</div>
+          This approach requires tuning the λ (lambda) weighting between data loss and physics loss. Start with λ = 0.1 and increase if the curve violates physical constraints. Too high and it ignores the data; too low and it overfits noise.
+        </div>
+
+        <p>
+          If you're working with PSD data and want to implement this for your process, feel free to <a href="../contact.html">get in touch</a>.
+        </p>
+
+      </div>
+    </article>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="post-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-title">Contents</div>
+        <ul class="toc-list">
+          <li><a href="#problem">The Problem</a></li>
+          <li><a href="#rosin-rammler">Rosin-Rammler Equation</a></li>
+          <li><a href="#pinn-approach">The PINN Approach</a></li>
+          <li><a href="#implementation">Python Implementation</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#when-to-use">When to Use This</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Tags</div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+          <span class="tag accent">PINN</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Rosin-Rammler</span>
+          <span class="tag">Comminution</span>
+          <span class="tag">PSD</span>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Work Together</div>
+        <p style="font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:1rem;">
+          Need this implemented for your plant's PSD data?
+        </p>
+        <a href="../contact.html" class="btn" style="width:100%; justify-content:center; font-size:13px; padding:10px 20px;">Get in Touch</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>

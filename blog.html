@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Budeesha Samarakoon</title>
+  <meta name="description" content="Articles on process engineering, optimisation, AI, and industrial automation by Budeesha Samarakoon.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .blog-header {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem 3rem;
+    }
+
+    .blog-grid {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 2.5rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* ── Post cards ── */
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .post-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Cover image */
+    .post-cover {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-cover-placeholder {
+      width: 100%;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .post-card-body {
+      padding: 2rem;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .post-date {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    .post-title {
+      font-family: var(--heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .post-card:hover .post-title {
+      color: var(--accent);
+    }
+
+    .post-excerpt {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .post-read-more {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ── Sidebar ── */
+    .blog-sidebar {
+      position: sticky;
+      top: 84px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .sidebar-title {
+      font-family: var(--heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .category-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .category-list li a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .category-list li a:hover {
+      background: rgba(79,142,247,0.08);
+      color: var(--accent);
+    }
+
+    .category-count {
+      font-size: 11px;
+      background: var(--bg3);
+      color: var(--text3);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .about-blurb {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Budeesha<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="blog-header">
+    <div class="section-label">Engineering Insights</div>
+    <h1 class="section-title">Process Engineering <em>&amp; AI</em></h1>
+    <p style="color:var(--text2); margin-top:0.75rem; max-width:560px; font-size:1rem;">
+      Practical articles on process optimisation, physics-informed AI, and industrial automation — written from the plant floor, not the classroom.
+    </p>
+  </div>
+
+  <div class="blog-grid">
+
+    <!-- LEFT: Post list -->
+    <div class="post-list">
+
+      <a href="posts/rosin-rammler-pinn.html" class="post-card fade-up">
+        <div class="post-cover-placeholder" style="background: linear-gradient(135deg, #0d1a30 0%, #0f2a4a 50%, #0a1e3a 100%);">🧠</div>
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="tag accent">AI &amp; ML</span>
+            <span class="tag">Optimisation</span>
+            <span class="post-date">28 Mar 2026</span>
+          </div>
+          <div class="post-title">Using Physics-Informed Neural Networks to Fit Rosin-Rammler PSD Models</div>
+          <p class="post-excerpt">
+            Standard curve-fitting fails when your particle size data is noisy or sparse. PINNs let you embed the Rosin-Rammler equation directly into the loss function — here's how that works in practice.
+          </p>
+          <span class="post-read-more">Read article →</span>
+        </div>
+      </a>
+
+      <a href="posts/mill-optimisation-automation.html" class="post-card fade-up">
+        <div class="post-cover-placeholder" style="background: linear-gradient(135deg, #0d2a1a 0%, #0a3a20 50%, #061a10 100%);">⚙️</div>
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="tag green">Automation</span>
+            <span class="tag">Optimisation</span>
+            <span class="post-date">20 Mar 2026</span>
+          </div>
+          <div class="post-title">Automating Roller Mill Setpoint Optimisation with n8n and Python</div>
+          <p class="post-excerpt">
+            Manual setpoint adjustments are slow and operator-dependent. This article walks through building an automated optimisation loop using n8n workflows and a Python backend.
+          </p>
+          <span class="post-read-more">Read article →</span>
+        </div>
+      </a>
+
+      <a href="posts/mass-balance-firebase.html" class="post-card fade-up">
+        <div class="post-cover-placeholder" style="background: linear-gradient(135deg, #1a1a0d 0%, #2a2a0a 50%, #1a1a06 100%);">📊</div>
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="tag">Process Engineering</span>
+            <span class="post-date">10 Mar 2026</span>
+          </div>
+          <div class="post-title">Building a Real-Time Mass Balance Dashboard with Firebase</div>
+          <p class="post-excerpt">
+            Spreadsheets break under shift changes. Here's how I replaced a plant's manual mass balance tracking with a real-time Firebase web app that operators actually use.
+          </p>
+          <span class="post-read-more">Read article →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="blog-sidebar">
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Categories</div>
+        <ul class="category-list">
+          <li><a href="#">AI &amp; Machine Learning <span class="category-count">1</span></a></li>
+          <li><a href="#">Process Optimisation <span class="category-count">2</span></a></li>
+          <li><a href="#">Automation <span class="category-count">1</span></a></li>
+          <li><a href="#">Process Engineering <span class="category-count">1</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">About the Author</div>
+        <p class="about-blurb">
+          Budeesha Samarakoon is a Chemical &amp; Process Engineer who builds industrial software. Based in Colombo, Sri Lanka.
+        </p>
+        <a href="about.html" class="btn btn-ghost" style="width:100%; justify-content:center; font-size:13px; padding:10px 20px;">Read Full Profile</a>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Get in Touch</div>
+        <p class="about-blurb">Have a process challenge that needs software? Let's talk.</p>
+        <a href="contact.html" class="btn" style="width:100%; justify-content:center; font-size:13px; padding:10px 20px;">Contact Me</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
