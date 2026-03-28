@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Budeesha</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .contact-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* Form */
+    .contact-form-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .contact-form-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .form-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 0.875rem 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0,200,255,0.15);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text3); }
+
+    .form-select option {
+      background: var(--bg2);
+      color: var(--text);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.7;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-submit {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .form-note {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.05em;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    /* Success message */
+    .form-success {
+      display: none;
+      background: var(--bg2);
+      border: 1px solid var(--accent2);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+    }
+
+    /* Sidebar info */
+    .contact-sidebar { display: flex; flex-direction: column; gap: 2px; }
+
+    .info-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 2rem;
+    }
+
+    .info-title {
+      font-family: var(--cond);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .info-desc {
+      font-size: 0.875rem;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+
+    .info-key {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+
+    .info-val {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .info-val.accent { color: var(--accent); }
+    .info-val.green  { color: var(--accent2); }
+
+    /* Freelance platforms */
+    .platform-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.2s;
+      margin-bottom: 2px;
+    }
+
+    .platform-link:hover { border-color: var(--accent); }
+
+    .platform-link-name {
+      font-family: var(--cond);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+
+    .platform-link-sub {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .platform-arrow {
+      font-family: var(--mono);
+      color: var(--text3);
+      font-size: 14px;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .platform-link:hover .platform-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">BUD<span>::</span>ENG</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="contact-layout">
+
+    <!-- LEFT: Form -->
+    <div class="fade-up">
+      <div class="section-label">Get in Touch</div>
+      <h1 class="section-title" style="font-size: clamp(1.75rem, 4vw, 3rem); margin-bottom: 0.5rem;">
+        Start a <em>Conversation</em>
+      </h1>
+      <p style="color: var(--text2); margin-bottom: 2rem; font-size: 0.9rem;">
+        Describe your process problem. The more technical detail you give me, the better I can assess whether I can help.
+      </p>
+
+      <div class="contact-form-panel">
+        <div class="form-title">Enquiry Form &mdash; ENG.CONTACT</div>
+
+        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="name">Full Name</label>
+              <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="service">Service Area</label>
+            <select class="form-select" id="service" name="service">
+              <option value="">Select a service...</option>
+              <option value="pinn">Industrial AI / PINN Modelling</option>
+              <option value="process">Process Engineering Consulting</option>
+              <option value="webapp">Industrial Web Application</option>
+              <option value="automation">Automation &amp; Workflow Systems</option>
+              <option value="other">Other / Not Sure</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="industry">Industry / Process</label>
+            <input class="form-input" type="text" id="industry" name="industry" placeholder="e.g. Activated carbon, cement, mining, food processing...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">Describe Your Problem</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What process challenge are you facing? What data do you have? What outcome are you looking for?" required></textarea>
+          </div>
+
+          <button type="submit" class="btn form-submit">
+            <span>Send Enquiry</span>
+          </button>
+          <p class="form-note">Typical response within 24 hours &mdash; I read every message.</p>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          &gt; Message received. I'll review your enquiry and respond within 24 hours.<br>
+          &gt; Thank you for reaching out.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="contact-sidebar fade-up">
+
+      <div class="info-panel">
+        <h2 class="info-title">What to Expect</h2>
+        <p class="info-desc">I read every enquiry carefully. If I can help, I'll respond with specific questions about your process — not a generic sales pitch.</p>
+        <div class="info-row">
+          <span class="info-key">Response Time</span>
+          <span class="info-val accent">&lt; 24 hours</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Location</span>
+          <span class="info-val">Colombo, Sri Lanka</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Timezone</span>
+          <span class="info-val">UTC +5:30</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Working Hours</span>
+          <span class="info-val">Flexible</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Availability</span>
+          <span class="info-val green">Open to projects</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <p class="mono" style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text3); margin-bottom:0.75rem;">// Also find me on</p>
+
+        <a href="#" class="platform-link">
+          <div>
+            <div class="platform-link-name">Upwork</div>
+            <div class="platform-link-sub">Freelance marketplace</div>
+          </div>
+          <span class="platform-arrow">›</span>
+        </a>
+
+        <a href="#" class="platform-link">
+          <div>
+            <div class="platform-link-name">Fiverr</div>
+            <div class="platform-link-sub">Project packages</div>
+          </div>
+          <span class="platform-arrow">›</span>
+        </a>
+
+        <a href="#" class="platform-link">
+          <div>
+            <div class="platform-link-name">LinkedIn</div>
+            <div class="platform-link-sub">Professional network</div>
+          </div>
+          <span class="platform-arrow">›</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="status-bar">
+  <div class="status-dot"></div>
+  <span>SYS.ONLINE</span>
+  <span style="color: var(--text3)">|</span>
+  <span id="clock"></span>
+  <div class="spacer"></div>
+  <span>AVAILABLE FOR FREELANCE</span>
+  <span style="color: var(--text3)">|</span>
+  <span style="color: var(--accent2)">STATUS: OPEN</span>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toUTCString().slice(17,25) + ' UTC';
+  }
+  updateClock(); setInterval(updateClock, 1000);
+
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      }
+    }).catch(() => {
+      document.getElementById('formSuccess').style.display = 'block';
+      document.getElementById('formSuccess').textContent = '> Message queued. Check your email for confirmation.';
+    });
+  });
+</script>
+</body>
+</html>

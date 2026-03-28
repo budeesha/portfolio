@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | Budeesha</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 3rem;
+    }
+
+    .services-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .service-card:hover { border-color: var(--accent); }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      transition: height 0.3s ease;
+    }
+
+    .service-card:hover::before { height: 100%; }
+
+    .service-card.wide {
+      grid-column: 1 / -1;
+    }
+
+    .service-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 16px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .service-code {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+    }
+
+    .service-name {
+      font-family: var(--cond);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .service-bullets li {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .service-bullets li::before {
+      content: '›';
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Wide card layout */
+    .service-card.wide .wide-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Process section */
+    .process-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 2.5rem;
+      background: var(--border);
+    }
+
+    .process-step {
+      background: var(--panel);
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--border2);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-family: var(--cond);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+    }
+
+    .cta-inner {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,200,255,0.03), transparent 60%);
+    }
+
+    @media (max-width: 900px) {
+      .services-layout { grid-template-columns: 1fr; }
+      .service-card.wide .wide-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .cta-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 600px) {
+      .process-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">BUD<span>::</span>ENG</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="page-header fade-up">
+    <div class="section-label">What I Build</div>
+    <h1 class="section-title">Services &amp; <em>Capabilities</em></h1>
+    <p style="color: var(--text2); margin-top: 1rem; max-width: 580px;">
+      I take on work where process engineering knowledge and software capability are both required. If you just need a developer, there are cheaper options. If you need someone who understands what the numbers mean — that's where I add value.
+    </p>
+  </div>
+
+  <div class="services-layout">
+
+    <div class="service-card fade-up">
+      <div class="service-icon-row">
+        <div class="service-icon">AI</div>
+        <span class="service-code">SVC-001</span>
+      </div>
+      <h2 class="service-name">Industrial AI &amp; ML Models</h2>
+      <p class="service-desc">Physics-informed models that respect process constraints — not black boxes trained to overfit. Built on your plant data, validated against your process knowledge.</p>
+      <ul class="service-bullets">
+        <li>Physics-Informed Neural Networks (PINNs)</li>
+        <li>Process optimisation models</li>
+        <li>Predictive maintenance systems</li>
+        <li>Particle size &amp; comminution modelling</li>
+      </ul>
+    </div>
+
+    <div class="service-card fade-up">
+      <div class="service-icon-row">
+        <div class="service-icon" style="color: var(--accent2);">⚙</div>
+        <span class="service-code">SVC-002</span>
+      </div>
+      <h2 class="service-name">Process Engineering Consulting</h2>
+      <p class="service-desc">Technical review, process modelling, and optimisation studies. I can audit your process, identify bottlenecks, and propose solutions grounded in chemical engineering principles.</p>
+      <ul class="service-bullets">
+        <li>PSD analysis &amp; milling optimisation</li>
+        <li>Mass &amp; energy balance studies</li>
+        <li>Process bottleneck identification</li>
+        <li>Kiln &amp; reactor performance review</li>
+      </ul>
+    </div>
+
+    <div class="service-card fade-up">
+      <div class="service-icon-row">
+        <div class="service-icon" style="color: var(--warn);">{ }</div>
+        <span class="service-code">SVC-003</span>
+      </div>
+      <h2 class="service-name">Industrial Web Applications</h2>
+      <p class="service-desc">Dashboards, monitoring tools, and operator interfaces for plant environments. Built for people who wear hard hats, not just people who use laptops.</p>
+      <ul class="service-bullets">
+        <li>Real-time process dashboards</li>
+        <li>Data logging &amp; reporting systems</li>
+        <li>Mobile apps for industrial hardware</li>
+        <li>Firebase / Supabase backend integration</li>
+      </ul>
+    </div>
+
+    <div class="service-card fade-up">
+      <div class="service-icon-row">
+        <div class="service-icon">N8</div>
+        <span class="service-code">SVC-004</span>
+      </div>
+      <h2 class="service-name">Automation &amp; Workflow Systems</h2>
+      <p class="service-desc">n8n-powered automation workflows that connect your tools, reduce manual work, and keep data flowing without human intervention.</p>
+      <ul class="service-bullets">
+        <li>n8n workflow design &amp; deployment</li>
+        <li>API integrations &amp; data pipelines</li>
+        <li>Report generation automation</li>
+        <li>Alert &amp; notification systems</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- PROCESS -->
+  <div class="process-section fade-up">
+    <div class="section-label">How I Work</div>
+    <h2 class="section-title" style="font-size: clamp(1.5rem,3vw,2.5rem)">Engagement <em>Process</em></h2>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Scoping Call</div>
+        <p class="step-desc">We talk through your process, your data, and the problem you're trying to solve. I ask the engineering questions most developers won't.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Technical Proposal</div>
+        <p class="step-desc">I return with a scoped proposal: what I'll build, what data I need, timeline, and fixed price. No hourly surprises.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Build &amp; Iterate</div>
+        <p class="step-desc">I build in short cycles with working demos. You give feedback against real plant context — not abstract wireframes.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <div class="step-title">Handover</div>
+        <p class="step-desc">Full documentation, source code, and a handover session. You own everything. I'm available for ongoing support.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <div class="cta-inner corners">
+      <div>
+        <p class="mono" style="font-size:10px; letter-spacing:0.2em; color:var(--text3); text-transform:uppercase; margin-bottom:0.5rem;">// Ready to start?</p>
+        <h3 style="font-family:var(--cond); font-size:1.75rem; font-weight:700; color:#fff; margin-bottom:0.5rem;">Have a process problem<br><em style="font-style:normal; color:var(--accent)">that needs an engineer?</em></h3>
+        <p style="color:var(--text2); font-size:0.9rem;">Let's talk. I respond within 24 hours.</p>
+      </div>
+      <div style="flex-shrink:0">
+        <a href="contact.html" class="btn"><span>Start a Conversation</span></a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="status-bar">
+  <div class="status-dot"></div>
+  <span>SYS.ONLINE</span>
+  <span style="color: var(--text3)">|</span>
+  <span id="clock"></span>
+  <div class="spacer"></div>
+  <span>AVAILABLE FOR FREELANCE</span>
+  <span style="color: var(--text3)">|</span>
+  <span style="color: var(--accent2)">STATUS: OPEN</span>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toUTCString().slice(17,25) + ' UTC';
+  }
+  updateClock(); setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

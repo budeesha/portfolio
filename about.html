@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Budeesha</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .about-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-main h1 {
+      font-family: var(--cond);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-main h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .about-intro {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .about-intro strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .about-body {
+      font-size: 0.95rem;
+      color: var(--text2);
+      line-height: 1.85;
+    }
+
+    .about-body p { margin-bottom: 1.25rem; }
+
+    /* Skills matrix */
+    .skills-matrix {
+      margin: 2.5rem 0;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .skill-cell {
+      background: var(--panel);
+      padding: 1rem 1.25rem;
+    }
+
+    .skill-cell-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-cell-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    /* Profile sidebar */
+    .about-sidebar {
+      position: sticky;
+      top: 80px;
+    }
+
+    .profile-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+
+    .profile-header {
+      background: var(--bg2);
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 80px; height: 80px;
+      border: 1px solid var(--border2);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--cond);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--panel);
+      position: relative;
+    }
+
+    .profile-avatar::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid var(--border);
+    }
+
+    .profile-name {
+      font-family: var(--cond);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-role {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+
+    .profile-data {
+      padding: 0;
+    }
+
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .profile-row:last-child { border-bottom: none; }
+
+    .profile-key {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+
+    .profile-val {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      text-align: right;
+    }
+
+    .profile-val.accent { color: var(--accent); }
+    .profile-val.green  { color: var(--accent2); }
+
+    /* Freelance platforms */
+    .platforms-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .platform-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .platform-row:last-child { border-bottom: none; }
+
+    .platform-name {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 900px) {
+      .about-layout { grid-template-columns: 1fr; }
+      .about-sidebar { position: static; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">BUD<span>::</span>ENG</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="about-layout">
+
+    <!-- LEFT: Content -->
+    <div>
+      <div class="section-label fade-up">Engineer Profile</div>
+      <h1 class="fade-up">The Engineer<br><em>Who Builds Software</em></h1>
+
+      <p class="about-intro fade-up">
+        I'm a <strong>Chemical and Process Engineer</strong> who learned to code — not a developer who learned some engineering terminology. That distinction matters more than it sounds when you're building tools for real industrial processes.
+      </p>
+
+      <div class="about-body fade-up">
+        <p>
+          My background is in chemical and process engineering, with hands-on experience in activated carbon production, comminution and milling operations, rotary kiln processes, and facility management systems. The software I build is grounded in that context — I know what the numbers mean because I've worked with the processes that generate them.
+        </p>
+        <p>
+          What drew me to building software wasn't a career pivot — it was frustration. The tools available for process engineers are either expensive, generic, or both. So I started building my own. The roller mill PSD optimisation platform started as a personal tool. The stock counting app was built because the plant needed something the Zebra TC26 could actually run. The janitorial management system replaced a clipboard and a spreadsheet.
+        </p>
+        <p>
+          I now work as a freelancer, taking on projects where engineering domain knowledge and software capability are both genuinely required. If you just need a web app built, there are faster and cheaper options. If you need someone who can read your PSD data, understand why your Rosin-Rammler fit is off, and then build the tool to fix it — that's the gap I fill.
+        </p>
+      </div>
+
+      <!-- Skills matrix -->
+      <div class="skills-matrix fade-up">
+        <div class="section-label" style="margin-bottom:1rem;">Technical Capabilities</div>
+        <div class="skills-grid">
+          <div class="skill-cell">
+            <div class="skill-cell-label">Process Engineering</div>
+            <div class="skill-cell-items">
+              <span class="tag">Comminution</span>
+              <span class="tag">PSD Analysis</span>
+              <span class="tag">Mass Balance</span>
+              <span class="tag">Kiln Ops</span>
+              <span class="tag">Activated Carbon</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <div class="skill-cell-label">AI / ML</div>
+            <div class="skill-cell-items">
+              <span class="tag accent">PINN</span>
+              <span class="tag">PyTorch</span>
+              <span class="tag">Rosin-Rammler</span>
+              <span class="tag">Physics Models</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <div class="skill-cell-label">Software Development</div>
+            <div class="skill-cell-items">
+              <span class="tag">Python</span>
+              <span class="tag">Android</span>
+              <span class="tag">Web Apps</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">Supabase</span>
+            </div>
+          </div>
+          <div class="skill-cell">
+            <div class="skill-cell-label">Automation</div>
+            <div class="skill-cell-items">
+              <span class="tag green">n8n</span>
+              <span class="tag">API Integration</span>
+              <span class="tag">Workflow Design</span>
+              <span class="tag">Vibe Coding</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="about-sidebar">
+      <div class="profile-panel fade-up">
+        <div class="profile-header">
+          <div class="profile-avatar">BS</div>
+          <div class="profile-name">Budeesha Samarakoon</div>
+          <div class="profile-role">Chem. &amp; Process Engineer</div>
+        </div>
+        <div class="profile-data">
+          <div class="profile-row">
+            <span class="profile-key">Location</span>
+            <span class="profile-val">Colombo, LK</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Timezone</span>
+            <span class="profile-val">UTC +5:30</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Experience</span>
+            <span class="profile-val">5+ years</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Focus</span>
+            <span class="profile-val accent">Industrial AI</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Availability</span>
+            <span class="profile-val green">Open to work</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Preferred Scope</span>
+            <span class="profile-val">Project-based</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="platforms-panel fade-up" style="margin-top:2px">
+        <div class="side-section-label" style="font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text3); margin-bottom:1rem;">Find me on</div>
+        <div class="platform-row">
+          <span class="platform-name">Upwork</span>
+          <a href="contact.html" class="tag accent">View Profile ›</a>
+        </div>
+        <div class="platform-row">
+          <span class="platform-name">Fiverr</span>
+          <a href="contact.html" class="tag accent">View Profile ›</a>
+        </div>
+        <div class="platform-row">
+          <span class="platform-name">LinkedIn</span>
+          <a href="contact.html" class="tag accent">Connect ›</a>
+        </div>
+      </div>
+
+      <div style="margin-top: 2px;">
+        <a href="contact.html" class="btn" style="width:100%; justify-content:center; text-align:center; display:flex;">
+          <span>Send an Enquiry</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="status-bar">
+  <div class="status-dot"></div>
+  <span>SYS.ONLINE</span>
+  <span style="color: var(--text3)">|</span>
+  <span id="clock"></span>
+  <div class="spacer"></div>
+  <span>AVAILABLE FOR FREELANCE</span>
+  <span style="color: var(--text3)">|</span>
+  <span style="color: var(--accent2)">STATUS: OPEN</span>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toUTCString().slice(17,25) + ' UTC';
+  }
+  updateClock(); setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

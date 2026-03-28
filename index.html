@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budeesha | Chemical & Process Engineer</title>
+  <meta name="description" content="Chemical & Process Engineer who builds industrial software. PINN-based mill optimisation, process automation, and industrial web applications.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - 60px - 28px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-eyebrow::before { content: '[ SYS.INIT ]'; color: var(--text3); }
+
+    .hero-name {
+      font-family: var(--cond);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.0;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-name .glitch {
+      position: relative;
+      display: inline-block;
+      color: var(--accent);
+    }
+
+    .hero-name .glitch::before,
+    .hero-name .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--accent);
+    }
+
+    .hero-name .glitch::before {
+      animation: glitch-1 4s infinite;
+      clip-path: inset(0 0 50% 0);
+      color: var(--warn);
+      opacity: 0.7;
+    }
+
+    .hero-name .glitch::after {
+      animation: glitch-2 4s infinite;
+      clip-path: inset(50% 0 0 0);
+      color: var(--accent2);
+      opacity: 0.7;
+    }
+
+    @keyframes glitch-1 {
+      0%, 90%, 100% { transform: none; opacity: 0; }
+      92% { transform: translateX(-2px); opacity: 0.7; }
+      94% { transform: translateX(2px); opacity: 0.7; }
+      96% { transform: none; opacity: 0; }
+    }
+
+    @keyframes glitch-2 {
+      0%, 90%, 100% { transform: none; opacity: 0; }
+      93% { transform: translateX(2px); opacity: 0.7; }
+      95% { transform: translateX(-2px); opacity: 0.7; }
+      97% { transform: none; opacity: 0; }
+    }
+
+    .hero-title {
+      font-family: var(--cond);
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-desc strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── HUD PANEL ── */
+    .hero-hud {
+      position: relative;
+    }
+
+    .hud-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hud-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .hud-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hud-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 8px var(--accent2);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      margin-bottom: 1px;
+    }
+
+    .stat {
+      background: var(--bg2);
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-value {
+      font-family: var(--cond);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-value.green { color: var(--accent2); }
+    .stat-value.warn  { color: var(--warn); }
+
+    .hud-bar {
+      background: var(--bg2);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1px;
+    }
+
+    .bar-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bar-track {
+      height: 3px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      animation: fillBar 1.5s ease forwards;
+      transform-origin: left;
+    }
+
+    .bar-fill.green { background: var(--accent2); }
+
+    @keyframes fillBar {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    .hud-terminal {
+      background: var(--bg2);
+      padding: 1rem 1.25rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.8;
+    }
+
+    .hud-terminal .prompt { color: var(--accent2); }
+    .hud-terminal .cmd    { color: var(--text); }
+    .hud-terminal .out    { color: var(--text3); }
+
+    .cursor {
+      display: inline-block;
+      width: 7px; height: 13px;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── STACK STRIP ── */
+    .stack-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stack-scroll {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: scrollLeft 25s linear infinite;
+    }
+
+    @keyframes scrollLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .stack-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 2rem;
+      border-right: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .stack-item::before {
+      content: '//';
+      color: var(--text3);
+    }
+
+    /* ── FEATURE STRIP ── */
+    .features {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .feature {
+      background: var(--panel);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .feature:hover { background: var(--bg3); }
+
+    .feature-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-family: var(--cond);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.875rem;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 3rem; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">BUD<span>::</span>ENG</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="hero">
+    <!-- LEFT: Identity -->
+    <div>
+      <div class="hero-eyebrow">Engineer &mdash; Builder &mdash; Problem Solver</div>
+      <h1 class="hero-name">
+        <span class="glitch" data-text="Budeesha">Budeesha</span><br>
+        <span style="color: var(--text2); font-size: 0.65em; font-weight: 300;">Samarakoon</span>
+      </h1>
+      <p class="hero-title">Chemical &amp; Process Engineer<br><span style="color: var(--accent);">who builds industrial software</span></p>
+      <p class="hero-desc">
+        I don't just <strong>model processes</strong> — I build the tools that run them. Bridging the gap between plant-floor engineering and software that actually works in production environments.
+      </p>
+      <div class="hero-actions">
+        <a href="projects.html" class="btn"><span>View Projects</span></a>
+        <a href="contact.html" class="btn btn-ghost"><span>Hire Me</span></a>
+      </div>
+    </div>
+
+    <!-- RIGHT: HUD Panel -->
+    <div class="hero-hud">
+      <div class="hud-panel corners">
+        <div class="hud-title">Engineer Profile &mdash; sys.status</div>
+
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-label">Experience</div>
+            <div class="stat-value">5+ <span style="font-size:0.8rem; color: var(--text2);">yrs</span></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Projects shipped</div>
+            <div class="stat-value green">04</div>
+          </div>
+        </div>
+        <div class="stat-row" style="margin-bottom:1px">
+          <div class="stat">
+            <div class="stat-label">Domain</div>
+            <div class="stat-value warn" style="font-size:1rem; padding-top:4px;">Process Eng.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Stack</div>
+            <div class="stat-value" style="font-size:1rem; padding-top:4px;">Full Stack</div>
+          </div>
+        </div>
+
+        <div class="hud-bar" style="margin-top:1px">
+          <div class="bar-label"><span>Process Engineering</span><span style="color:var(--accent)">95%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
+        </div>
+        <div class="hud-bar">
+          <div class="bar-label"><span>Industrial Software Dev</span><span style="color:var(--accent2)">82%</span></div>
+          <div class="bar-track"><div class="bar-fill green" style="width:82%; animation-delay:0.2s"></div></div>
+        </div>
+        <div class="hud-bar">
+          <div class="bar-label"><span>ML / Physics-Informed AI</span><span style="color:var(--accent)">78%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:78%; animation-delay:0.4s"></div></div>
+        </div>
+
+        <div class="hud-terminal">
+          <div><span class="prompt">$</span> <span class="cmd">status --check</span></div>
+          <div class="out">&gt; Available for freelance work</div>
+          <div class="out">&gt; Location: Colombo, LK</div>
+          <div class="out">&gt; Specialisation: Industrial AI</div>
+          <div><span class="prompt">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK SCROLL -->
+  <div class="stack-strip">
+    <div class="stack-scroll">
+      <div class="stack-item">Python</div>
+      <div class="stack-item">Physics-Informed Neural Networks</div>
+      <div class="stack-item">Firebase</div>
+      <div class="stack-item">n8n Automation</div>
+      <div class="stack-item">Android Dev</div>
+      <div class="stack-item">Particle Size Distribution</div>
+      <div class="stack-item">Process Optimisation</div>
+      <div class="stack-item">Zebra TC26</div>
+      <div class="stack-item">Rosin-Rammler Models</div>
+      <div class="stack-item">Activated Carbon</div>
+      <div class="stack-item">Kiln Control</div>
+      <div class="stack-item">Vibe Coding</div>
+      <!-- Duplicate for seamless loop -->
+      <div class="stack-item">Python</div>
+      <div class="stack-item">Physics-Informed Neural Networks</div>
+      <div class="stack-item">Firebase</div>
+      <div class="stack-item">n8n Automation</div>
+      <div class="stack-item">Android Dev</div>
+      <div class="stack-item">Particle Size Distribution</div>
+      <div class="stack-item">Process Optimisation</div>
+      <div class="stack-item">Zebra TC26</div>
+      <div class="stack-item">Rosin-Rammler Models</div>
+      <div class="stack-item">Activated Carbon</div>
+      <div class="stack-item">Kiln Control</div>
+      <div class="stack-item">Vibe Coding</div>
+    </div>
+  </div>
+
+  <!-- FEATURE STRIP -->
+  <div class="features">
+    <div class="feature fade-up">
+      <div class="feature-num">01 / 03</div>
+      <div class="feature-title">Plant-Floor Credibility</div>
+      <p class="feature-desc">Every tool I build is trained on, tested in, and deployed for real industrial environments — not sandbox demos.</p>
+    </div>
+    <div class="feature fade-up">
+      <div class="feature-num">02 / 03</div>
+      <div class="feature-title">Engineer Who Codes</div>
+      <p class="feature-desc">I speak process engineering and software. No translation layer. The model constraints come from physics, not guesswork.</p>
+    </div>
+    <div class="feature fade-up">
+      <div class="feature-num">03 / 03</div>
+      <div class="feature-title">Full Autonomy</div>
+      <p class="feature-desc">From plant data to deployed application. I scope, build, and ship without requiring an engineering team behind me.</p>
+    </div>
+  </div>
+</main>
+
+<div class="status-bar">
+  <div class="status-dot"></div>
+  <span>SYS.ONLINE</span>
+  <span style="color: var(--text3)">|</span>
+  <span id="clock"></span>
+  <span style="color: var(--text3)">|</span>
+  <span>LOC: COLOMBO, LK</span>
+  <div class="spacer"></div>
+  <span>AVAILABLE FOR FREELANCE</span>
+  <span style="color: var(--text3)">|</span>
+  <span style="color: var(--accent2)">STATUS: OPEN</span>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toUTCString().slice(17,25) + ' UTC';
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
