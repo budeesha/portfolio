@@ -3,255 +3,720 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Budeesha Samarakoon | Chemical & Process Engineer</title>
-  <meta name="description" content="Chemical & Process Engineer who builds industrial software. PINN-based mill optimisation, process automation, and industrial web applications.">
+  <title>Budeesha Samarakoon | Chemical & Process Systems Engineer</title>
+  <meta name="description" content="Chemical & Process Systems Engineer combining first-principles process knowledge with data science and industrial software. Heat transfer, reaction engineering, separation processes, simulation, and digital tools for any process problem.">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ── HERO ── */
-    .hero {
-      min-height: calc(100vh - 64px);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 5rem;
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 5rem 2.5rem;
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    .hero-wrap {
       position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Particle canvas */
+    #particles {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Subtle radial vignette over particles */
+    .hero-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 50% 0%,
+        transparent 40%, rgba(10,12,18,0.85) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top gradient line */
+    .hero-top-line {
+      position: absolute;
+      top: 64px;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(79,142,247,0.35), transparent);
       z-index: 1;
     }
 
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 7rem 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    /* — Eyebrow badge — */
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--accent);
-      background: rgba(79,142,247,0.1);
-      border: 1px solid rgba(79,142,247,0.25);
-      border-radius: 20px;
+      background: rgba(79,142,247,0.08);
+      border: 1px solid rgba(79,142,247,0.2);
+      border-radius: 6px;
       padding: 5px 14px;
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
 
-    .hero-eyebrow::before {
-      content: '';
+    .eyebrow-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--accent2);
       animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
     }
 
+    /* — Name with gradient animation — */
     .hero-name {
       font-family: var(--heading);
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(2.8rem, 5.5vw, 4.6rem);
       font-weight: 800;
-      line-height: 1.05;
+      line-height: 1.06;
       color: #fff;
       letter-spacing: -0.04em;
-      margin-bottom: 1rem;
+      margin-bottom: 0.6rem;
     }
 
-    .hero-name .last {
-      color: var(--accent);
+    .hero-name .accent {
+      background: linear-gradient(135deg, var(--accent), #6366f1, var(--accent2), var(--accent));
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 6s ease-in-out infinite;
     }
 
-    .hero-title {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--text2);
-      margin-bottom: 1.75rem;
-      line-height: 1.6;
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50%       { background-position: 100% 50%; }
     }
 
-    .hero-title strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .hero-desc {
+    /* — Typewriter role — */
+    .hero-role {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
       font-size: 1rem;
       color: var(--text2);
-      max-width: 460px;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
+      min-height: 1.6em;
+    }
+
+    .hero-role strong { color: var(--text); font-weight: 600; }
+    .role-sep { width: 1px; height: 14px; background: var(--border2); flex-shrink: 0; }
+
+    .typewriter {
+      color: var(--accent);
+      font-weight: 600;
+      border-right: 2px solid var(--accent);
+      padding-right: 3px;
+      animation: blink 0.8s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* — Description — */
+    .hero-desc {
+      font-size: 0.97rem;
+      color: var(--text2);
+      max-width: 480px;
+      margin-bottom: 2.25rem;
       line-height: 1.85;
     }
 
+    .hero-desc strong { color: var(--text); }
+
+    /* — CTA buttons — */
     .hero-actions {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
 
-    /* ── PROFILE CARD ── */
-    .profile-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .card-header {
-      padding: 1.5rem 1.75rem;
-      border-bottom: 1px solid var(--border);
+    /* — Social links — */
+    .hero-social {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
 
-    .card-avatar {
-      width: 48px; height: 48px;
+    .hero-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .hero-social a:hover { color: var(--text); }
+    .hero-social a.live { color: var(--accent2); }
+    .hero-social a.live:hover { color: #5ef5c0; }
+
+    .hero-social svg {
+      width: 15px; height: 15px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .social-sep { width: 1px; height: 14px; background: var(--border); }
+
+    /* =========================================================
+       DASHBOARD CARD (hero right)
+    ========================================================= */
+    .dashboard {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .dashboard::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), #6366f1, var(--accent2));
+    }
+
+    .dash-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dash-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+
+    .dash-avatar {
+      width: 44px; height: 44px;
       border-radius: 12px;
       background: linear-gradient(135deg, var(--accent), #6366f1);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--heading);
-      font-size: 17px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 800;
       color: #fff;
       flex-shrink: 0;
     }
 
-    .card-identity h3 {
+    .dash-name {
       font-family: var(--heading);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #fff;
       letter-spacing: -0.01em;
     }
 
-    .card-identity p {
-      font-size: 12px;
-      color: var(--text2);
+    .dash-title-sm {
+      font-size: 11px;
+      color: var(--text3);
       margin-top: 2px;
     }
 
-    .card-status {
-      margin-left: auto;
-    }
-
-    /* ── STAT GRID ── */
-    .stat-grid {
+    .dash-stats {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border);
     }
 
-    .stat {
+    .dash-stat {
       background: var(--panel);
-      padding: 1.25rem 1.75rem;
+      padding: 1.1rem 1.25rem;
     }
 
-    .stat-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
+    .ds-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text3);
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
     }
 
-    .stat-value {
+    .ds-value {
       font-family: var(--heading);
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: #fff;
       line-height: 1;
     }
 
-    .stat-value.blue  { color: var(--accent); }
-    .stat-value.green { color: var(--accent2); }
-    .stat-value.amber { color: var(--warn); }
+    .ds-value.blue  { color: var(--accent); }
+    .ds-value.green { color: var(--accent2); }
+    .ds-value.amber { color: var(--warn); }
 
-    /* ── SKILL BARS ── */
-    .skills {
-      padding: 1.5rem 1.75rem;
+    .ds-sub {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 3px;
+    }
+
+    /* Process Domains mini grid */
+    .dash-domains {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .domains-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .domains-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .domain-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .domain-pill:hover { border-color: var(--border2); color: var(--text); }
+
+    .domain-pill span {
+      font-size: 13px;
+    }
+
+    /* Skill bars */
+    .dash-skills {
+      padding: 1.1rem 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
-    .skill {
+    .dskill {
       display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .skill-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
+    .dskill-name {
+      font-size: 11px;
       font-weight: 500;
+      color: var(--text2);
+      width: 160px;
+      flex-shrink: 0;
     }
 
-    .skill-name { color: var(--text); }
-    .skill-pct  { color: var(--text2); }
-
-    .bar-track {
+    .dskill-track {
+      flex: 1;
       height: 4px;
-      background: var(--border2);
+      background: var(--border);
       border-radius: 4px;
       overflow: hidden;
     }
 
-    .bar-fill {
+    .dskill-fill {
       height: 100%;
       border-radius: 4px;
       background: var(--accent);
       animation: fillBar 1.2s ease forwards;
       transform-origin: left;
+      transform: scaleX(0);
     }
 
-    .bar-fill.green { background: var(--accent2); }
-    .bar-fill.amber { background: var(--warn); }
+    .dskill-fill.g { background: var(--accent2); animation-delay: 0.2s; }
+    .dskill-fill.a { background: var(--warn);    animation-delay: 0.4s; }
 
-    @keyframes fillBar {
-      from { transform: scaleX(0); }
-      to   { transform: scaleX(1); }
+    @keyframes fillBar { to { transform: scaleX(1); } }
+
+    .dskill-pct {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      width: 28px;
+      text-align: right;
     }
 
-    /* ── AVAILABILITY FOOTER ── */
-    .card-footer {
-      padding: 1rem 1.75rem;
+    .dash-footer {
+      padding: 0.9rem 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .avail-dot {
-      width: 8px; height: 8px;
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-dot {
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--accent2);
       box-shadow: 0 0 8px var(--accent2);
       animation: pulse 2s ease-in-out infinite;
-      display: inline-block;
-      margin-right: 0.5rem;
     }
 
-    .avail-text {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent2);
+    .status-text { font-size: 12px; font-weight: 500; color: var(--accent2); }
+    .status-loc  { font-size: 11px; color: var(--text3); }
+
+    /* =========================================================
+       CREDENTIALS STRIP
+    ========================================================= */
+    .creds {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
     }
 
-    .avail-loc {
-      font-size: 12px;
+    .creds-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .cred-item {
+      padding: 2rem 2.5rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .cred-item:last-child { border-right: none; }
+
+    .cred-value {
+      font-family: var(--heading);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .cred-value span { color: var(--accent); }
+    .cred-label { font-size: 13px; font-weight: 500; color: var(--text2); }
+
+    /* =========================================================
+       THE APPROACH — 4-Step Methodology
+    ========================================================= */
+    .approach-section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 6rem 2.5rem;
+    }
+
+    .approach-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 3rem;
+      position: relative;
+    }
+
+    /* Connecting line between steps */
+    .approach-flow::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(12.5% + 12px);
+      right: calc(12.5% + 12px);
+      height: 1px;
+      background: linear-gradient(90deg,
+        var(--accent) 0%,
+        #6366f1 33%,
+        var(--accent2) 66%,
+        var(--warn) 100%);
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    .approach-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-num {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 1.25rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .step-num.blue   { background: rgba(79,142,247,0.12);  border: 1px solid rgba(79,142,247,0.25); }
+    .step-num.indigo { background: rgba(99,102,241,0.12);  border: 1px solid rgba(99,102,241,0.25); }
+    .step-num.green  { background: rgba(52,211,153,0.12);  border: 1px solid rgba(52,211,153,0.25); }
+    .step-num.amber  { background: rgba(245,158,11,0.12);  border: 1px solid rgba(245,158,11,0.25); }
+
+    .step-counter {
+      position: absolute;
+      top: -6px; right: -6px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      font-size: 9px;
+      font-weight: 700;
       color: var(--text3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* ── STACK STRIP ── */
+    .step-title {
+      font-family: var(--heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: var(--text2);
+      line-height: 1.75;
+      margin-bottom: 0.875rem;
+    }
+
+    .step-example {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text3);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 10px;
+    }
+
+    /* =========================================================
+       KNOWLEDGE DOMAINS
+    ========================================================= */
+    .domains-section {
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 5rem 0;
+    }
+
+    .domains-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .domains-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .domains-note {
+      font-size: 13px;
+      color: var(--text3);
+      max-width: 380px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .knowledge-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.875rem;
+    }
+
+    .knowledge-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.6rem;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      cursor: default;
+    }
+
+    .knowledge-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    }
+
+    .kc-icon {
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .kc-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .kc-sub {
+      font-size: 10px;
+      color: var(--text3);
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       EXPERTISE
+    ========================================================= */
+    .expertise {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 6rem 2.5rem;
+    }
+
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .expertise-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expertise-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    }
+
+    .exp-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 1.25rem;
+    }
+
+    .exp-icon.blue   { background: rgba(79,142,247,0.1);  border: 1px solid rgba(79,142,247,0.2); }
+    .exp-icon.green  { background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.2); }
+    .exp-icon.amber  { background: rgba(245,158,11,0.1);  border: 1px solid rgba(245,158,11,0.2); }
+    .exp-icon.purple { background: rgba(99,102,241,0.1);  border: 1px solid rgba(99,102,241,0.2); }
+
+    .exp-title {
+      font-family: var(--heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .exp-desc {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .exp-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text3);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 10px;
+    }
+
+    /* =========================================================
+       TECH STACK STRIP
+    ========================================================= */
     .stack-strip {
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background: var(--bg2);
       overflow: hidden;
       position: relative;
-      z-index: 1;
     }
 
     .stack-strip::before,
@@ -259,25 +724,18 @@
       content: '';
       position: absolute;
       top: 0; bottom: 0;
-      width: 80px;
+      width: 100px;
       z-index: 2;
       pointer-events: none;
     }
 
-    .stack-strip::before {
-      left: 0;
-      background: linear-gradient(90deg, var(--bg2), transparent);
-    }
-
-    .stack-strip::after {
-      right: 0;
-      background: linear-gradient(-90deg, var(--bg2), transparent);
-    }
+    .stack-strip::before { left: 0;  background: linear-gradient(90deg,  var(--bg2), transparent); }
+    .stack-strip::after  { right: 0; background: linear-gradient(-90deg, var(--bg2), transparent); }
 
     .stack-scroll {
       display: flex;
       width: max-content;
-      animation: scrollLeft 30s linear infinite;
+      animation: scrollLeft 38s linear infinite;
     }
 
     @keyframes scrollLeft {
@@ -289,7 +747,7 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      padding: 0.85rem 1.75rem;
+      padding: 0.9rem 1.75rem;
       border-right: 1px solid var(--border);
       font-size: 13px;
       font-weight: 500;
@@ -305,58 +763,219 @@
       opacity: 0.5;
     }
 
-    /* ── FEATURE CARDS ── */
-    .features {
+    /* =========================================================
+       FEATURED PROJECTS
+    ========================================================= */
+    .projects-section {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 0 2.5rem 6rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      position: relative;
-      z-index: 1;
+      padding: 6rem 2.5rem;
     }
 
-    .feature {
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .proj-card {
       background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 2rem;
-      transition: border-color 0.2s, transform 0.2s;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
     }
 
-    .feature:hover {
+    .proj-card:hover {
       border-color: var(--border2);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
     }
 
-    .feature-num {
-      font-size: 12px;
+    .proj-thumb {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.75rem;
+    }
+
+    .proj-thumb.blue   { background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(99,102,241,0.08)); }
+    .proj-thumb.green  { background: linear-gradient(135deg, rgba(52,211,153,0.15), rgba(79,142,247,0.08)); }
+    .proj-thumb.amber  { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.08)); }
+
+    .proj-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proj-category {
+      font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 1rem;
       text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
     }
 
-    .feature-title {
+    .proj-title {
       font-family: var(--heading);
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       color: #fff;
       letter-spacing: -0.01em;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
-    .feature-desc {
-      font-size: 0.9rem;
+    .proj-desc {
+      font-size: 0.85rem;
       color: var(--text2);
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .proj-footer {
+      padding: 0.875rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .proj-stack {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .proj-lang {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text3);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+
+    .proj-arrow {
+      font-size: 14px;
+      color: var(--text3);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .proj-card:hover .proj-arrow { color: var(--accent); transform: translateX(4px); }
+
+    /* =========================================================
+       CTA BANNER
+    ========================================================= */
+    .cta-section {
+      padding: 0 2.5rem 8rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .cta-banner {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .cta-banner::after {
+      content: '';
+      position: absolute;
+      top: -40%; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(79,142,247,0.09), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .cta-title {
+      font-family: var(--heading);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .cta-sub {
+      font-size: 1rem;
+      color: var(--text2);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
       line-height: 1.75;
     }
 
+    .cta-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
     @media (max-width: 960px) {
-      .hero { grid-template-columns: 1fr; gap: 3rem; min-height: auto; padding-top: 3rem; }
-      .features { grid-template-columns: 1fr; }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding-top: 5rem;
+      }
+      .creds-inner { grid-template-columns: repeat(2, 1fr); }
+      .cred-item:nth-child(2) { border-right: none; }
+      .cred-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .cred-item:nth-child(4) { border-top: 1px solid var(--border); }
+      .approach-flow {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      .approach-flow::before { display: none; }
+      .expertise-grid  { grid-template-columns: 1fr; }
+      .projects-grid   { grid-template-columns: 1fr; }
+      .knowledge-grid  { grid-template-columns: repeat(3, 1fr); }
+      .domains-header  { flex-direction: column; align-items: flex-start; }
+      .domains-note    { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      .creds-inner     { grid-template-columns: 1fr 1fr; }
+      .cta-banner      { padding: 3rem 1.75rem; }
+      .hero-social     { flex-wrap: wrap; gap: 0.6rem; }
+      .approach-flow   { grid-template-columns: 1fr; }
+      .knowledge-grid  { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -376,148 +995,629 @@
 </nav>
 
 <main>
-  <section class="hero">
-    <!-- LEFT: Identity -->
-    <div>
-      <div class="hero-eyebrow">Available for freelance work</div>
-      <h1 class="hero-name">
-        Budeesha<br>
-        <span class="last">Samarakoon</span>
-      </h1>
-      <p class="hero-title">
-        <strong>Chemical &amp; Process Engineer</strong> — who builds industrial software
-      </p>
-      <p class="hero-desc">
-        I don't just model processes — I build the tools that run them. Bridging the gap between plant-floor engineering and software that actually works in production environments.
-      </p>
-      <div class="hero-actions">
-        <a href="projects.html" class="btn">View Projects</a>
-        <a href="contact.html" class="btn btn-ghost">Hire Me</a>
-      </div>
-      <a href="tools/psd-simulator.html" style="display:inline-flex; align-items:center; gap:0.6rem; margin-top:1.25rem; font-size:13px; font-weight:500; color:var(--accent2); text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
-        <span style="background:rgba(52,211,153,0.12); border:1px solid rgba(52,211,153,0.3); border-radius:6px; padding:3px 9px; font-size:11px; font-weight:700; letter-spacing:0.06em;">LIVE TOOL</span>
-        Try the Rosin-Rammler PSD Simulator →
-      </a>
-    </div>
 
-    <!-- RIGHT: Profile Card -->
-    <div>
-      <div class="profile-card">
-        <div class="card-header">
-          <div class="card-avatar">BS</div>
-          <div class="card-identity">
-            <h3>Budeesha Samarakoon</h3>
-            <p>Chem. &amp; Process Engineer</p>
-          </div>
-          <div class="card-status">
+  <!-- ======================================================
+       HERO
+  ====================================================== -->
+  <div class="hero-wrap">
+    <canvas id="particles"></canvas>
+    <div class="hero-top-line"></div>
+
+    <div class="hero">
+
+      <!-- LEFT — Identity -->
+      <div>
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          Available for Freelance &amp; Collaboration
+        </div>
+
+        <h1 class="hero-name">
+          Budeesha<br>
+          <span class="accent">Samarakoon</span>
+        </h1>
+
+        <div class="hero-role">
+          <strong>Chemical &amp; Process Engineer</strong>
+          <span class="role-sep"></span>
+          <span class="typewriter" id="typewriter"></span>
+        </div>
+
+        <p class="hero-desc">
+          Every process problem — whether it's a <strong>heat exchanger losing efficiency</strong>,
+          a <strong>reactor underperforming</strong>, or a <strong>separation column off-spec</strong>
+          — has a first-principles explanation and a data-driven solution.
+          I build the models and tools that find both.
+        </p>
+
+        <div class="hero-actions">
+          <a href="projects.html" class="btn">View My Work</a>
+          <a href="contact.html" class="btn btn-ghost">Let's Talk</a>
+        </div>
+
+        <div class="hero-social">
+          <a href="https://www.linkedin.com/in/budeeshasamarakoon" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <span class="social-sep"></span>
+          <a href="mailto:budeesha0011@gmail.com">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Email
+          </a>
+          <span class="social-sep"></span>
+          <a href="tools/psd-simulator.html" class="live">
+            <svg viewBox="0 0 24 24"><path d="M5 3v16h16v2H3V3h2zm15.293 2.293l1.414 1.414L16 12.414l-3-3-4.707 4.707-1.414-1.414L13 6.586l3 3 4.293-4.293z"/></svg>
+            Live Process Tools
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT — Engineering Dashboard -->
+      <div>
+        <div class="dashboard fade-up">
+
+          <div class="dash-header">
+            <div class="dash-profile">
+              <div class="dash-avatar">BS</div>
+              <div>
+                <div class="dash-name">Budeesha Samarakoon</div>
+                <div class="dash-title-sm">Chemical &amp; Process Systems Engineer</div>
+              </div>
+            </div>
             <span class="tag green">Open to Work</span>
           </div>
-        </div>
 
-        <div class="stat-grid">
-          <div class="stat">
-            <div class="stat-label">Industry Exp.</div>
-            <div class="stat-value blue">~1 <span style="font-size:1rem; font-weight:500; color:var(--text2)">yr</span></div>
+          <div class="dash-stats">
+            <div class="dash-stat">
+              <div class="ds-label">Experience</div>
+              <div class="ds-value blue">~11<span style="font-size:.85rem;font-weight:500;color:var(--text2)"> mo</span></div>
+              <div class="ds-sub">Industrial</div>
+            </div>
+            <div class="dash-stat">
+              <div class="ds-label">Domains</div>
+              <div class="ds-value green">10<span style="font-size:1rem;color:var(--text2)">+</span></div>
+              <div class="ds-sub">Process Areas</div>
+            </div>
+            <div class="dash-stat">
+              <div class="ds-label">Status</div>
+              <div class="ds-value amber" style="font-size:.85rem;padding-top:4px">Employed</div>
+              <div class="ds-sub">Open to Freelance</div>
+            </div>
           </div>
-          <div class="stat">
-            <div class="stat-label">Projects Shipped</div>
-            <div class="stat-value green">04</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">Domain</div>
-            <div class="stat-value amber" style="font-size:1.1rem; padding-top:4px">Process Eng.</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">Stack</div>
-            <div class="stat-value" style="font-size:1.1rem; padding-top:4px">Full Stack</div>
-          </div>
-        </div>
 
-        <div class="skills">
-          <div class="skill">
-            <div class="skill-meta">
-              <span class="skill-name">Process Engineering</span>
-              <span class="skill-pct">95%</span>
+          <!-- Process Domains Preview -->
+          <div class="dash-domains">
+            <div class="domains-label">
+              Process Knowledge Areas
+              <span style="font-size:10px;color:var(--accent);background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);border-radius:4px;padding:2px 8px;">10+ Domains</span>
             </div>
-            <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
-          </div>
-          <div class="skill">
-            <div class="skill-meta">
-              <span class="skill-name">Industrial Software Dev</span>
-              <span class="skill-pct">82%</span>
+            <div class="domains-grid">
+              <div class="domain-pill"><span>🌡️</span> Heat Transfer</div>
+              <div class="domain-pill"><span>⚗️</span> Reaction Eng.</div>
+              <div class="domain-pill"><span>🧪</span> Separation</div>
+              <div class="domain-pill"><span>🌿</span> Environmental</div>
+              <div class="domain-pill"><span>⚡</span> Energy Systems</div>
+              <div class="domain-pill"><span>🛡️</span> Process Safety</div>
             </div>
-            <div class="bar-track"><div class="bar-fill green" style="width:82%; animation-delay:0.2s"></div></div>
           </div>
-          <div class="skill">
-            <div class="skill-meta">
-              <span class="skill-name">ML / Physics-Informed AI</span>
-              <span class="skill-pct">78%</span>
-            </div>
-            <div class="bar-track"><div class="bar-fill amber" style="width:78%; animation-delay:0.4s"></div></div>
-          </div>
-        </div>
 
-        <div class="card-footer">
-          <div>
-            <span class="avail-dot"></span>
-            <span class="avail-text">Available now</span>
+          <!-- Skill bars -->
+          <div class="dash-skills">
+            <div class="dskill">
+              <div class="dskill-name">Process Systems Design</div>
+              <div class="dskill-track"><div class="dskill-fill" style="width:88%"></div></div>
+              <div class="dskill-pct">88%</div>
+            </div>
+            <div class="dskill">
+              <div class="dskill-name">Data Science &amp; ML</div>
+              <div class="dskill-track"><div class="dskill-fill g" style="width:80%"></div></div>
+              <div class="dskill-pct">80%</div>
+            </div>
+            <div class="dskill">
+              <div class="dskill-name">Industrial Software</div>
+              <div class="dskill-track"><div class="dskill-fill a" style="width:78%"></div></div>
+              <div class="dskill-pct">78%</div>
+            </div>
           </div>
-          <span class="avail-loc">Colombo, LK &nbsp;·&nbsp; UTC +5:30</span>
+
+          <div class="dash-footer">
+            <div class="status-indicator">
+              <div class="status-dot"></div>
+              <span class="status-text">Available now</span>
+            </div>
+            <span class="status-loc">Colombo, LK &nbsp;·&nbsp; UTC +5:30</span>
+          </div>
+
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- TECH STACK SCROLL -->
+    </div>
+  </div>
+
+  <!-- ======================================================
+       CREDENTIALS STRIP
+  ====================================================== -->
+  <div class="creds">
+    <div class="creds-inner">
+      <div class="cred-item">
+        <div class="cred-value">~11<span>mo</span></div>
+        <div class="cred-label">Industrial Experience</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-value">10<span>+</span></div>
+        <div class="cred-label">Process Engineering Domains</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-value">4<span>+</span></div>
+        <div class="cred-label">Industrial Tools Shipped</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-value">1<span>st</span></div>
+        <div class="cred-label">Principles + Data Always</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       THE APPROACH — 4-Step Methodology
+  ====================================================== -->
+  <div class="approach-section">
+    <div class="section-label">How I Think</div>
+    <h2 class="section-title">The <em>Methodology</em> — applied to any process</h2>
+
+    <div class="approach-flow">
+
+      <div class="approach-step fade-up">
+        <div class="step-num blue">
+          🔬
+          <span class="step-counter">1</span>
+        </div>
+        <div class="step-title">Understand the Physics</div>
+        <p class="step-desc">Start with conservation laws, thermodynamics, kinetics, and transport phenomena. No guessing — the physics defines the solution space.</p>
+        <span class="step-example">Conservation · Thermodynamics · Kinetics</span>
+      </div>
+
+      <div class="approach-step fade-up">
+        <div class="step-num indigo">
+          📐
+          <span class="step-counter">2</span>
+        </div>
+        <div class="step-title">Build the Model</div>
+        <p class="step-desc">Translate physics into first-principles equations. Mass balances, energy balances, rate equations — mathematical representations of real process behaviour.</p>
+        <span class="step-example">Mass Balance · Energy Balance · Rate Laws</span>
+      </div>
+
+      <div class="approach-step fade-up">
+        <div class="step-num green">
+          📊
+          <span class="step-counter">3</span>
+        </div>
+        <div class="step-title">Validate with Data</div>
+        <p class="step-desc">Real plant measurements, lab results, and sensor data validate and enrich the model. Physics constrains — data refines. That's where PINNs and ML come in.</p>
+        <span class="step-example">Plant Data · Regression · PINNs · ML</span>
+      </div>
+
+      <div class="approach-step fade-up">
+        <div class="step-num amber">
+          🚀
+          <span class="step-counter">4</span>
+        </div>
+        <div class="step-title">Deploy the Solution</div>
+        <p class="step-desc">Turn the validated model into a working tool — a dashboard, a predictor, an automated workflow — something engineers can actually use on the plant floor.</p>
+        <span class="step-example">Digital Tool · Dashboard · Automation</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================
+       KNOWLEDGE DOMAINS
+  ====================================================== -->
+  <div class="domains-section">
+    <div class="domains-inner">
+      <div class="domains-header">
+        <div>
+          <div class="section-label">Academic Foundation</div>
+          <h2 class="section-title" style="margin-bottom:0">Knowledge across the <em>full spectrum</em></h2>
+        </div>
+        <p class="domains-note">Chemical &amp; Process Engineering demands breadth — every unit operation, every discipline. This is the knowledge base I draw from when approaching any process problem.</p>
+      </div>
+
+      <div class="knowledge-grid">
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🌡️</div>
+          <div class="kc-title">Heat &amp; Mass Transfer</div>
+          <div class="kc-sub">Heat exchangers, boilers, condensers, dryers</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">⚗️</div>
+          <div class="kc-title">Reaction Engineering</div>
+          <div class="kc-sub">Reactors, kinetics, catalysis, yield optimisation</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🧪</div>
+          <div class="kc-title">Separation Processes</div>
+          <div class="kc-sub">Distillation, absorption, extraction, evaporation</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">💧</div>
+          <div class="kc-title">Fluid Mechanics</div>
+          <div class="kc-sub">Pipe networks, pumps, compressors, flow regimes</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🔩</div>
+          <div class="kc-title">Particle Technology</div>
+          <div class="kc-sub">Comminution, PSD, sieving, classification</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🌿</div>
+          <div class="kc-title">Environmental Eng.</div>
+          <div class="kc-sub">Wastewater treatment, air pollution control, sustainability</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">⚡</div>
+          <div class="kc-title">Energy Systems</div>
+          <div class="kc-sub">Heat integration, energy recovery, steam systems</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🛡️</div>
+          <div class="kc-title">Process Safety</div>
+          <div class="kc-sub">HAZOP, risk assessment, protective systems</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🔄</div>
+          <div class="kc-title">Process Systems Design</div>
+          <div class="kc-sub">Flowsheet design, process integration, optimisation</div>
+        </div>
+
+        <div class="knowledge-card fade-up">
+          <div class="kc-icon">🤖</div>
+          <div class="kc-title">AI &amp; Process ML</div>
+          <div class="kc-sub">PINNs, physics-constrained models, data-driven control</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       EXPERTISE — What I Build
+  ====================================================== -->
+  <div class="expertise">
+    <div class="section-label">What I Build</div>
+    <h2 class="section-title">Where <em>process knowledge</em> meets software</h2>
+
+    <div class="expertise-grid">
+
+      <div class="expertise-card fade-up">
+        <div class="exp-icon blue">🔬</div>
+        <div class="exp-title">Process Systems Engineering</div>
+        <p class="exp-desc">Applying first-principles modelling across unit operations — from heat exchangers and reactors to separation columns and particle systems. Systems-level thinking that sees the whole plant, not just one piece of equipment.</p>
+        <div class="exp-tags">
+          <span class="exp-tag">First Principles</span>
+          <span class="exp-tag">Process Simulation</span>
+          <span class="exp-tag">Mass &amp; Energy Balance</span>
+          <span class="exp-tag">Systems Design</span>
+          <span class="exp-tag">Optimisation</span>
+        </div>
+      </div>
+
+      <div class="expertise-card fade-up">
+        <div class="exp-icon green">💻</div>
+        <div class="exp-title">Industrial Software &amp; Digital Tools</div>
+        <p class="exp-desc">Full-stack applications built for industrial environments — from plant-floor Android apps on Zebra scanners to web-based process calculators and real-time production dashboards engineers actually trust.</p>
+        <div class="exp-tags">
+          <span class="exp-tag">Python</span>
+          <span class="exp-tag">Firebase</span>
+          <span class="exp-tag">Android</span>
+          <span class="exp-tag">Supabase</span>
+          <span class="exp-tag">Full-Stack Web</span>
+        </div>
+      </div>
+
+      <div class="expertise-card fade-up">
+        <div class="exp-icon amber">🧠</div>
+        <div class="exp-title">Physics-Informed Data Science</div>
+        <p class="exp-desc">Combining first-principles process models with machine learning — Physics-Informed Neural Networks (PINNs) that embed thermodynamic and kinetic constraints directly into the model. Results that respect physics, not just data patterns.</p>
+        <div class="exp-tags">
+          <span class="exp-tag">PINNs</span>
+          <span class="exp-tag">PyTorch</span>
+          <span class="exp-tag">Scikit-learn</span>
+          <span class="exp-tag">Physics Constraints</span>
+          <span class="exp-tag">Predictive Models</span>
+        </div>
+      </div>
+
+      <div class="expertise-card fade-up">
+        <div class="exp-icon purple">⚡</div>
+        <div class="exp-title">Process Automation &amp; Integration</div>
+        <p class="exp-desc">End-to-end workflow automation connecting plant data streams, lab systems, and reporting pipelines — built with n8n and custom integrations that eliminate manual data handling and human error.</p>
+        <div class="exp-tags">
+          <span class="exp-tag">n8n</span>
+          <span class="exp-tag">Workflow Automation</span>
+          <span class="exp-tag">API Integration</span>
+          <span class="exp-tag">Real-time Data</span>
+          <span class="exp-tag">Reporting</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================
+       TECH STACK SCROLL
+  ====================================================== -->
   <div class="stack-strip">
     <div class="stack-scroll">
       <div class="stack-item">Python</div>
       <div class="stack-item">Physics-Informed Neural Networks</div>
-      <div class="stack-item">Firebase</div>
+      <div class="stack-item">Heat Transfer</div>
+      <div class="stack-item">Reaction Engineering</div>
+      <div class="stack-item">Distillation &amp; Separation</div>
+      <div class="stack-item">Mass &amp; Energy Balance</div>
       <div class="stack-item">n8n Automation</div>
+      <div class="stack-item">Firebase</div>
       <div class="stack-item">Android Dev</div>
-      <div class="stack-item">Particle Size Distribution</div>
+      <div class="stack-item">HAZOP &amp; Process Safety</div>
+      <div class="stack-item">Environmental Engineering</div>
+      <div class="stack-item">Wastewater Treatment</div>
+      <div class="stack-item">PyTorch</div>
       <div class="stack-item">Process Optimisation</div>
-      <div class="stack-item">Zebra TC26</div>
-      <div class="stack-item">Rosin-Rammler Models</div>
-      <div class="stack-item">Activated Carbon</div>
-      <div class="stack-item">Kiln Control</div>
       <div class="stack-item">Supabase</div>
+      <div class="stack-item">Particle Size Distribution</div>
+      <div class="stack-item">Fluid Mechanics</div>
+      <div class="stack-item">Energy Systems</div>
       <!-- Duplicate for seamless loop -->
       <div class="stack-item">Python</div>
       <div class="stack-item">Physics-Informed Neural Networks</div>
-      <div class="stack-item">Firebase</div>
+      <div class="stack-item">Heat Transfer</div>
+      <div class="stack-item">Reaction Engineering</div>
+      <div class="stack-item">Distillation &amp; Separation</div>
+      <div class="stack-item">Mass &amp; Energy Balance</div>
       <div class="stack-item">n8n Automation</div>
+      <div class="stack-item">Firebase</div>
       <div class="stack-item">Android Dev</div>
-      <div class="stack-item">Particle Size Distribution</div>
+      <div class="stack-item">HAZOP &amp; Process Safety</div>
+      <div class="stack-item">Environmental Engineering</div>
+      <div class="stack-item">Wastewater Treatment</div>
+      <div class="stack-item">PyTorch</div>
       <div class="stack-item">Process Optimisation</div>
-      <div class="stack-item">Zebra TC26</div>
-      <div class="stack-item">Rosin-Rammler Models</div>
-      <div class="stack-item">Activated Carbon</div>
-      <div class="stack-item">Kiln Control</div>
       <div class="stack-item">Supabase</div>
+      <div class="stack-item">Particle Size Distribution</div>
+      <div class="stack-item">Fluid Mechanics</div>
+      <div class="stack-item">Energy Systems</div>
     </div>
   </div>
 
-  <!-- FEATURE CARDS -->
-  <div class="features">
-    <div class="feature fade-up">
-      <div class="feature-num">01</div>
-      <div class="feature-title">Plant-Floor Credibility</div>
-      <p class="feature-desc">Every tool I build is trained on, tested in, and deployed for real industrial environments — not sandbox demos.</p>
+  <!-- ======================================================
+       FEATURED PROJECTS — Case Studies
+  ====================================================== -->
+  <div class="projects-section">
+    <div class="section-label">Case Studies</div>
+    <h2 class="section-title">The methodology <em>in action</em></h2>
+
+    <div class="projects-grid">
+
+      <a href="tools/psd-simulator.html" class="proj-card fade-up">
+        <div class="proj-thumb blue">📊</div>
+        <div class="proj-body">
+          <div class="proj-category">Particle Technology · Live Tool</div>
+          <div class="proj-title">Rosin-Rammler PSD Simulator</div>
+          <p class="proj-desc">First-principles particle size distribution modelling deployed as an interactive browser tool — real-time curve fitting, d10/d50/d80/d90 metrics, material presets, and CSV export.</p>
+        </div>
+        <div class="proj-footer">
+          <div class="proj-stack">
+            <span class="proj-lang">JavaScript</span>
+            <span class="proj-lang">Chart.js</span>
+            <span class="proj-lang">First Principles</span>
+          </div>
+          <span class="proj-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="projects.html" class="proj-card fade-up">
+        <div class="proj-thumb green">🧠</div>
+        <div class="proj-body">
+          <div class="proj-category">Physics-Informed ML · Research</div>
+          <div class="proj-title">PINN-Based Process Optimisation</div>
+          <p class="proj-desc">Physics-Informed Neural Network that embeds process constraints directly into the ML loss function — delivering predictions that respect physical laws, not just data patterns. Applied to particle processing as proof of concept.</p>
+        </div>
+        <div class="proj-footer">
+          <div class="proj-stack">
+            <span class="proj-lang">Python</span>
+            <span class="proj-lang">PyTorch</span>
+            <span class="proj-lang">PINNs</span>
+          </div>
+          <span class="proj-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="projects.html" class="proj-card fade-up">
+        <div class="proj-thumb amber">📱</div>
+        <div class="proj-body">
+          <div class="proj-category">Industrial Software · Production</div>
+          <div class="proj-title">Plant Operations Tracker</div>
+          <p class="proj-desc">Android application for industrial scanners — real-time production logging, shift reporting, and a live Firebase-powered dashboard giving plant supervisors instant visibility of operations.</p>
+        </div>
+        <div class="proj-footer">
+          <div class="proj-stack">
+            <span class="proj-lang">Kotlin</span>
+            <span class="proj-lang">Firebase</span>
+            <span class="proj-lang">Android</span>
+          </div>
+          <span class="proj-arrow">→</span>
+        </div>
+      </a>
+
     </div>
-    <div class="feature fade-up">
-      <div class="feature-num">02</div>
-      <div class="feature-title">Engineer Who Codes</div>
-      <p class="feature-desc">I speak process engineering and software. No translation layer. The model constraints come from physics, not guesswork.</p>
-    </div>
-    <div class="feature fade-up">
-      <div class="feature-num">03</div>
-      <div class="feature-title">Full Autonomy</div>
-      <p class="feature-desc">From plant data to deployed application. I scope, build, and ship without requiring an engineering team behind me.</p>
+
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="projects.html" class="btn btn-ghost">View All Projects →</a>
     </div>
   </div>
+
+  <!-- ======================================================
+       CTA BANNER
+  ====================================================== -->
+  <div class="cta-section">
+    <div class="cta-banner">
+      <div class="cta-label">Let's Solve It Together</div>
+      <h2 class="cta-title">Got a process problem<br>that needs a real solution?</h2>
+      <p class="cta-sub">
+        Whether it's modelling a heat exchanger, optimising a reaction system, building a plant data tool,
+        or automating a workflow — I approach every problem the same way: physics first, data second, software third.
+      </p>
+      <div class="cta-actions">
+        <a href="contact.html" class="btn">Get in Touch</a>
+        <a href="mailto:budeesha0011@gmail.com" class="btn btn-ghost">budeesha0011@gmail.com</a>
+      </div>
+    </div>
+  </div>
+
 </main>
+
+<!-- ======================================================
+     PARTICLE NETWORK BACKGROUND
+====================================================== -->
+<script>
+(function () {
+  const canvas = document.getElementById('particles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const N = 60, CONNECT_DIST = 130;
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function Particle() {
+    this.reset();
+  }
+
+  Particle.prototype.reset = function () {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.35;
+    this.vy = (Math.random() - 0.5) * 0.35;
+    this.r  = Math.random() * 1.5 + 0.8;
+  };
+
+  Particle.prototype.update = function () {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > W) this.vx *= -1;
+    if (this.y < 0 || this.y > H) this.vy *= -1;
+  };
+
+  function init() {
+    resize();
+    particles = Array.from({ length: N }, () => new Particle());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < N; i++) {
+      const p = particles[i];
+      p.update();
+
+      // Draw dot
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(79,142,247,0.55)';
+      ctx.fill();
+
+      // Draw connections
+      for (let j = i + 1; j < N; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < CONNECT_DIST) {
+          const alpha = 0.18 * (1 - d / CONNECT_DIST);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(79,142,247,${alpha})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => {
+    resize();
+    particles.forEach(p => {
+      if (p.x > W) p.x = Math.random() * W;
+      if (p.y > H) p.y = Math.random() * H;
+    });
+  });
+
+  init();
+  draw();
+})();
+</script>
+
+<!-- ======================================================
+     TYPEWRITER ROLE CYCLING
+====================================================== -->
+<script>
+(function () {
+  const el = document.getElementById('typewriter');
+  if (!el) return;
+
+  const roles = [
+    'Process Systems Designer',
+    'First-Principles Modeller',
+    'Industrial Software Developer',
+    'Physics-Informed ML Engineer',
+    'Process Optimisation Specialist'
+  ];
+
+  let roleIdx = 0, charIdx = 0, deleting = false;
+
+  function tick() {
+    const current = roles[roleIdx];
+
+    if (!deleting) {
+      charIdx++;
+      el.textContent = current.slice(0, charIdx);
+      if (charIdx === current.length) {
+        deleting = true;
+        setTimeout(tick, 2000);
+        return;
+      }
+      setTimeout(tick, 60);
+    } else {
+      charIdx--;
+      el.textContent = current.slice(0, charIdx);
+      if (charIdx === 0) {
+        deleting = false;
+        roleIdx = (roleIdx + 1) % roles.length;
+        setTimeout(tick, 400);
+        return;
+      }
+      setTimeout(tick, 35);
+    }
+  }
+
+  setTimeout(tick, 800);
+})();
+</script>
 
 </body>
 </html>
