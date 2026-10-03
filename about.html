@@ -83,6 +83,65 @@
       gap: 0.35rem;
     }
 
+    /* Experience & education timeline */
+    .timeline {
+      margin: 2.5rem 0;
+    }
+
+    .tl-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2px;
+    }
+
+    .tl-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tl-role {
+      font-family: var(--cond);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .tl-date {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+
+    .tl-org {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      margin: 0.25rem 0 0.75rem;
+    }
+
+    .tl-body {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.75;
+    }
+
+    .tl-body ul {
+      margin: 0.5rem 0 0 1.1rem;
+    }
+
+    .tl-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.85rem;
+    }
+
     /* Profile sidebar */
     .about-sidebar {
       position: sticky;
@@ -104,9 +163,10 @@
     }
 
     .profile-avatar {
-      width: 80px; height: 80px;
-      border: 1px solid var(--border2);
-      margin: 0 auto 1rem;
+      width: 176px; height: 176px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0.5rem auto 1.25rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -118,27 +178,33 @@
       position: relative;
     }
 
-    .profile-avatar::before {
+    .profile-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-avatar::after {
       content: '';
       position: absolute;
-      inset: -4px;
-      border: 1px solid var(--border);
+      inset: 0;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      pointer-events: none;
     }
 
     .profile-name {
-      font-family: var(--cond);
-      font-size: 1.25rem;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
       color: #fff;
-      margin-bottom: 0.25rem;
+      line-height: 1.4;
+      margin-bottom: 0.2rem;
     }
 
     .profile-role {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: var(--text3);
-      text-transform: uppercase;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text2);
     }
 
     .profile-data {
@@ -228,12 +294,12 @@
       <h1 class="fade-up">The Engineer<br><em>Who Builds Software</em></h1>
 
       <p class="about-intro fade-up">
-        I'm a <strong>recently graduated Chemical and Process Engineer</strong> who learned to code — not a developer who learned some engineering terminology. That distinction matters more than it sounds when you're building tools for real industrial processes.
+        I'm a <strong>Chemical and Process Engineer</strong> (BSc Eng Hons, University of Peradeniya) who learned to code — not a developer who learned some engineering terminology. That distinction matters more than it sounds when you're building tools for real industrial processes.
       </p>
 
       <div class="about-body fade-up">
         <p>
-          Fresh out of university, I went straight into industrial environments — gaining hands-on experience in activated carbon production, comminution and milling operations, rotary kiln processes, and facility management systems. Six months of prior industrial exposure and five months at my current role have given me direct plant-floor context that most software developers simply don't have.
+          Today I work as an <strong>Engineering Executive at Haycarb PLC</strong>, a global manufacturer of coconut-shell activated carbon. Day to day that means rotary kiln activation, comminution and milling, particle size control, and the plant data behind them — direct plant-floor context that most software developers simply don't have.
         </p>
         <p>
           What drew me to building software wasn't a career pivot — it was frustration. The tools available for process engineers are either expensive, generic, or both. So I started building my own. The roller mill PSD optimisation platform started as a personal tool. The stock counting app was built because the plant needed something the Zebra TC26 could actually run. The janitorial management system replaced a clipboard and a spreadsheet.
@@ -241,6 +307,52 @@
         <p>
           I'm at the start of my career — but the software I build is grounded in real process knowledge, not guesswork. If you need someone who can read your PSD data, understand why your Rosin-Rammler fit is off, and then build the tool to fix it — that's exactly what I do.
         </p>
+      </div>
+
+      <!-- Experience & education -->
+      <div class="timeline fade-up">
+        <div class="section-label" style="margin-bottom:1rem;">Experience &amp; Education</div>
+
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">Engineering Executive</span>
+            <span class="tl-date">Present</span>
+          </div>
+          <div class="tl-org">Haycarb PLC &nbsp;·&nbsp; Activated Carbon Manufacturing &nbsp;·&nbsp; Sri Lanka</div>
+          <div class="tl-body">
+            Process engineering on an activated carbon plant — rotary kiln activation, crushing and milling, and particle size control. Building the digital tools the plant runs on: production tracking apps, data workflows, and process models.
+          </div>
+          <div class="tl-tags">
+            <span class="tag">Rotary Kilns</span>
+            <span class="tag">Comminution</span>
+            <span class="tag">PSD Control</span>
+            <span class="tag">Plant Data</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">BSc Engineering (Hons) — Chemical &amp; Process Engineering</span>
+            <span class="tl-date">2025</span>
+          </div>
+          <div class="tl-org">University of Peradeniya &nbsp;·&nbsp; Faculty of Engineering</div>
+          <div class="tl-body">
+            Strongest work in modelling and design:
+            <ul>
+              <li>Numerical Methods in Chemical &amp; Process Engineering</li>
+              <li>Process Engineering Design Projects (basic &amp; advanced)</li>
+              <li>Process Engineering Research Project (two-semester)</li>
+              <li>Energy &amp; Environmental Management in Process Industry</li>
+              <li>Energy Systems Design &nbsp;·&nbsp; Biological Process Engineering</li>
+            </ul>
+          </div>
+          <div class="tl-tags">
+            <span class="tag">Process Design</span>
+            <span class="tag">Numerical Methods</span>
+            <span class="tag">Energy Systems</span>
+            <span class="tag">Industrial Training</span>
+          </div>
+        </div>
       </div>
 
       <!-- Skills matrix -->
@@ -293,9 +405,9 @@
     <div class="about-sidebar">
       <div class="profile-panel fade-up">
         <div class="profile-header">
-          <div class="profile-avatar">BS</div>
+          <div class="profile-avatar"><img src="images/profile.jpg" alt="Budeesha Samarakoon" width="176" height="176"></div>
           <div class="profile-name">Budeesha Samarakoon</div>
-          <div class="profile-role">Chem. &amp; Process Engineer</div>
+          <div class="profile-role">Chemical &amp; Process Engineer<br>Engineering Executive, Haycarb PLC</div>
         </div>
         <div class="profile-data">
           <div class="profile-row">
@@ -307,12 +419,16 @@
             <span class="profile-val">UTC +5:30</span>
           </div>
           <div class="profile-row">
-            <span class="profile-key">Experience</span>
-            <span class="profile-val">~11 months</span>
+            <span class="profile-key">Role</span>
+            <span class="profile-val">Engineering Executive</span>
           </div>
           <div class="profile-row">
-            <span class="profile-key">Status</span>
-            <span class="profile-val accent">Recently Graduated</span>
+            <span class="profile-key">Company</span>
+            <span class="profile-val accent">Haycarb PLC</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-key">Degree</span>
+            <span class="profile-val">BSc Eng (Hons), Peradeniya</span>
           </div>
           <div class="profile-row">
             <span class="profile-key">Focus</span>
