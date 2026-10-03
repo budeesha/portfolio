@@ -219,12 +219,13 @@
     .dash-profile {
       display: flex;
       align-items: center;
-      gap: 0.875rem;
+      gap: 1.1rem;
     }
 
     .dash-avatar {
-      width: 44px; height: 44px;
-      border-radius: 12px;
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
       background: linear-gradient(135deg, var(--accent), #6366f1);
       display: flex;
       align-items: center;
@@ -234,19 +235,27 @@
       font-weight: 800;
       color: #fff;
       flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .dash-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .dash-name {
       font-family: var(--heading);
-      font-size: 14px;
+      font-size: 17px;
       font-weight: 700;
       color: #fff;
       letter-spacing: -0.01em;
     }
 
     .dash-title-sm {
-      font-size: 11px;
-      color: var(--text3);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text2);
       margin-top: 2px;
     }
 
@@ -971,11 +980,17 @@
     }
 
     @media (max-width: 600px) {
-      .creds-inner     { grid-template-columns: 1fr 1fr; }
+      .creds-inner     { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cred-item       { padding: 1.5rem 1.25rem; }
+      .cred-value      { font-size: 1.7rem; }
       .cta-banner      { padding: 3rem 1.75rem; }
       .hero-social     { flex-wrap: wrap; gap: 0.6rem; }
       .approach-flow   { grid-template-columns: 1fr; }
       .knowledge-grid  { grid-template-columns: repeat(2, 1fr); }
+      .dash-header     { flex-wrap: wrap; gap: 0.9rem; }
+      .dash-avatar     { width: 72px; height: 72px; }
+      .dash-stats      { grid-template-columns: 1fr 1fr; }
+      .dash-stat:last-child { grid-column: span 2; }
     }
   </style>
 </head>
@@ -1059,30 +1074,30 @@
 
           <div class="dash-header">
             <div class="dash-profile">
-              <div class="dash-avatar">BS</div>
+              <div class="dash-avatar"><img src="images/profile.jpg" alt="Budeesha Samarakoon" width="84" height="84"></div>
               <div>
                 <div class="dash-name">Budeesha Samarakoon</div>
-                <div class="dash-title-sm">Chemical &amp; Process Systems Engineer</div>
+                <div class="dash-title-sm">Engineering Executive<br>Haycarb PLC</div>
               </div>
             </div>
-            <span class="tag green">Open to Work</span>
+            <span class="tag green" style="white-space:nowrap">Open to Freelance</span>
           </div>
 
           <div class="dash-stats">
             <div class="dash-stat">
-              <div class="ds-label">Experience</div>
-              <div class="ds-value blue">~11<span style="font-size:.85rem;font-weight:500;color:var(--text2)"> mo</span></div>
+              <div class="ds-label">Industry</div>
+              <div class="ds-value blue" style="font-size:.85rem;padding-top:4px">Activated Carbon</div>
+              <div class="ds-sub">Manufacturing</div>
+            </div>
+            <div class="dash-stat">
+              <div class="ds-label">Degree</div>
+              <div class="ds-value green" style="font-size:.85rem;padding-top:4px">BSc Eng (Hons)</div>
+              <div class="ds-sub">Chem &amp; Process</div>
+            </div>
+            <div class="dash-stat">
+              <div class="ds-label">Tools Shipped</div>
+              <div class="ds-value amber">4<span style="font-size:1rem;color:var(--text2)">+</span></div>
               <div class="ds-sub">Industrial</div>
-            </div>
-            <div class="dash-stat">
-              <div class="ds-label">Domains</div>
-              <div class="ds-value green">10<span style="font-size:1rem;color:var(--text2)">+</span></div>
-              <div class="ds-sub">Process Areas</div>
-            </div>
-            <div class="dash-stat">
-              <div class="ds-label">Status</div>
-              <div class="ds-value amber" style="font-size:.85rem;padding-top:4px">Employed</div>
-              <div class="ds-sub">Open to Freelance</div>
             </div>
           </div>
 
@@ -1141,12 +1156,12 @@
   <div class="creds">
     <div class="creds-inner">
       <div class="cred-item">
-        <div class="cred-value">~11<span>mo</span></div>
-        <div class="cred-label">Industrial Experience</div>
+        <div class="cred-value">BSc<span>&nbsp;Eng</span></div>
+        <div class="cred-label">Chem &amp; Process, Univ. of Peradeniya</div>
       </div>
       <div class="cred-item">
-        <div class="cred-value">10<span>+</span></div>
-        <div class="cred-label">Process Engineering Domains</div>
+        <div class="cred-value">Haycarb<span></span></div>
+        <div class="cred-label">Engineering Executive, Activated Carbon</div>
       </div>
       <div class="cred-item">
         <div class="cred-value">4<span>+</span></div>

@@ -223,6 +223,27 @@
       margin: 0 -0.25rem;
     }
 
+    /* ── SIDE PROJECTS ── */
+    .side-header {
+      padding: 1.5rem 0 1rem;
+    }
+
+    .game-shot {
+      display: block;
+      border: 1px solid var(--border2);
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+
+    .game-shot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+
+    .game-shot:hover img { transform: scale(1.04); }
+
     @media (max-width: 900px) {
       .project-card,
       .project-card.flagship {
@@ -483,6 +504,54 @@
             <div class="metric">
               <span class="metric-key">Status</span>
               <span class="metric-val warn">Paused</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDE PROJECTS -->
+    <div class="side-header fade-up">
+      <div class="section-label">Just for Fun</div>
+      <p style="color: var(--text2); max-width: 560px;">
+        Not everything has to run on a plant. Things I build on weekends to try out new ideas.
+      </p>
+    </div>
+
+    <!-- FUN 1: Reverse Attack -->
+    <div class="project-card fade-up">
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-num">FUN-001</span>
+          <span class="tag green">Playable</span>
+        </div>
+        <h2 class="project-name">Reverse<br><em>Attack</em></h2>
+        <p class="project-desc">
+          An isometric space colony runner where you can't steer — every shot launches your ship in the exact opposite direction, so gun recoil is your only engine. Manage weapon heat, ram enemies at speed, bank shots off buildings, and fight your way to the warp gate. Four weapons, each with its own recoil kick. A physics problem disguised as a game.
+        </p>
+        <div class="project-links">
+          <a href="https://reverse-attack-2026.web.app/" target="_blank" rel="noopener" class="btn"><span>Play Now ›</span></a>
+        </div>
+      </div>
+
+      <div class="project-side">
+        <a class="game-shot" href="https://reverse-attack-2026.web.app/" target="_blank" rel="noopener">
+          <img src="images/reverse-attack.jpg" alt="Reverse Attack gameplay — ship in an isometric space colony" loading="lazy" width="800" height="450">
+        </a>
+        <div>
+          <div class="side-section-label">Details</div>
+          <div class="metric-row">
+            <div class="metric">
+              <span class="metric-key">Genre</span>
+              <span class="metric-val">Arcade Shooter</span>
+            </div>
+            <div class="metric">
+              <span class="metric-key">Platform</span>
+              <span class="metric-val">Browser · PC &amp; Mobile</span>
+            </div>
+            <div class="metric">
+              <span class="metric-key">Status</span>
+              <span class="metric-val green">Live</span>
             </div>
           </div>
         </div>
